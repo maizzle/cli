@@ -1,0 +1,34 @@
+const ora = require('ora')
+const path = require('path')
+const fs = require('fs-extra')
+const clone = require('git-clone')
+const exec = require("child_process").exec
+
+module.exports.scaffold = (dir, repo) => {
+  dir = dir || 'maizzle'
+  repo = repo || 'https://github.com/maizzle/maizzle.git'
+
+  let dest = path.join(process.cwd(), dir)
+  let spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
+
+  if (fs.existsSync(dest)) {
+    return spinner.fail(`ERROR: The ${dest} directory already exists!`)
+  }
+
+  return clone(repo, dest, () => {
+    process.chdir(dest)
+
+    fs.remove('.git', err => {
+      if (err) return spinner.fail(err)
+
+      spinner.start('Project downloaded, installing NPM dependencies...')
+
+      exec("npm install", (err, stdout, stderr) => {
+        if (err) {
+          return spinner.fail(err)
+        }
+        spinner.succeed('Maizzle project initialized, go create awesome emails!')
+      })
+    })
+  })
+}

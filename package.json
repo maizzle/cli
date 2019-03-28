@@ -1,0 +1,40 @@
+{
+  "name": "@maizzle/cli",
+  "version": "0.0.0",
+  "description": "CLI tool for the Maizzle Email Framework",
+  "license": "MIT",
+  "bin": {
+    "maizzle": "./bin/maizzle"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maizzle/cli.git"
+  },
+  "bugs": "https://github.com/maizzle/cli/issues",
+  "homepage": "https://maizzle.com",
+  "author": "Cosmin Popovici (https://github.com/cossssmin)",
+  "keywords": [
+    "maizzle",
+    "email",
+    "tailwind-css",
+    "email-framework",
+    "responsive-email",
+    "email-template",
+    "email-boilerplate",
+    "email-campaigns"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "release": "np"
+  },
+  "dependencies": {
+    "commander": "^2.19.0",
+    "fs-extra": "^7.0.1",
+    "git-clone": "^0.1.0",
+    "import-cwd": "^2.1.0",
+    "np": "*",
+    "ora": "^3.0.0"
+  }
+}
