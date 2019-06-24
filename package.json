@@ -33,7 +33,7 @@
     "commander": "^2.19.0",
     "fs-extra": "^8.0.1",
     "git-clone": "^0.1.0",
-    "import-cwd": "^2.1.0",
+    "import-cwd": "^3.0.0",
     "np": "*",
     "ora": "^3.0.0"
   }
