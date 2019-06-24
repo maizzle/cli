@@ -18,7 +18,7 @@ yarn global add @maizzle/cli
 
 ## Usage
 
-### Create a project
+Create a project
 
 ```sh
 maizzle new my-project
