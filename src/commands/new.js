@@ -12,7 +12,7 @@ module.exports.scaffold = (dir, repo) => {
   let spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
 
   if (fs.existsSync(dest)) {
-    return spinner.fail(`ERROR: The ${dest} directory already exists!`)
+    return spinner.fail(`The ${dest} directory already exists!`)
   }
 
   return clone(repo, dest, async () => {
