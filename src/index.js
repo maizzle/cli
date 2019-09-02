@@ -9,7 +9,8 @@ module.exports = () => {
   cli
     .command('new [path] [repo]')
     .description('scaffold a new Maizzle project')
-    .action((path, repo) => Project.scaffold(path, repo) )
+    .option('-d, --no-deps', `Don't install NPM dependencies`)
+    .action((path, repo, cmdObj) => Project.scaffold(path, repo, cmdObj))
 
   cli
     .command('build [env]')

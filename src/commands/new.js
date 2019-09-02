@@ -4,7 +4,7 @@ const fs = require('fs-extra')
 const clone = require('git-clone')
 const exec = require("child_process").exec
 
-module.exports.scaffold = (dir, repo) => {
+module.exports.scaffold = (dir, repo, cmdObj) => {
   dir = dir || 'maizzle'
   repo = repo || 'https://github.com/maizzle/maizzle.git'
 
@@ -22,14 +22,18 @@ module.exports.scaffold = (dir, repo) => {
       await fs.remove('.git')
       await fs.remove('.github')
 
-      spinner.start('Project downloaded, installing NPM dependencies...')
+      if (cmdObj.deps) {
+        spinner.start('Project downloaded, installing NPM dependencies...')
 
-      exec("npm install", (err, stdout, stderr) => {
-        if (err) {
-          return spinner.fail(err)
-        }
-        spinner.succeed('Maizzle project initialized, go create awesome emails!')
-      })
+        exec("npm install", (err, stdout, stderr) => {
+          if (err) {
+            return spinner.fail(err)
+          }
+          spinner.succeed('Maizzle project initialized, go create awesome emails!')
+        })
+      } else {
+        spinner.succeed('Maizzle project initialized (without NPM dependencies).')
+      }
     } catch (error) {
       spinner.fail(error)
     }
