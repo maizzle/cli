@@ -15,11 +15,12 @@ module.exports.scaffold = (dir, repo) => {
     return spinner.fail(`ERROR: The ${dest} directory already exists!`)
   }
 
-  return clone(repo, dest, () => {
-    process.chdir(dest)
+  return clone(repo, dest, async () => {
+    try {
+      process.chdir(dest)
 
-    fs.remove('.git', err => {
-      if (err) return spinner.fail(err)
+      await fs.remove('.git')
+      await fs.remove('.github')
 
       spinner.start('Project downloaded, installing NPM dependencies...')
 
@@ -29,6 +30,8 @@ module.exports.scaffold = (dir, repo) => {
         }
         spinner.succeed('Maizzle project initialized, go create awesome emails!')
       })
-    })
+    } catch (error) {
+      spinner.fail(error)
+    }
   })
 }
