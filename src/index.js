@@ -1,11 +1,8 @@
 const cli = require('commander')
-const pkg = require('../package.json')
 const importCwd = require('import-cwd')
 const Project = require('./commands/new')
 
 module.exports = () => {
-  cli.version(pkg.version, '-v, --version')
-
   cli
     .command('new [path] [repo]')
     .description('scaffold a new Maizzle project')
@@ -34,6 +31,20 @@ module.exports = () => {
       } catch (err) {
         throw err
       }
+    })
+
+  cli
+    .option('-v, --version', 'output current framework and CLI versions')
+    .on('option:version', () => {
+      try {
+        const pkg = require('../package.json')
+        const maizzle = importCwd('./node_modules/@maizzle/framework/package.json')
+        console.log(`Framework v${maizzle.version}\nCLI v${pkg.version}`)
+      } catch (error) {
+        console.error(`Error: Cannot find framework package. \nMake sure it's installed and that you're executing this command in the root directory of your project.\n`)
+        console.error(error)
+      }
+      process.exit()
     })
 
   cli.on('command:*', () => {
