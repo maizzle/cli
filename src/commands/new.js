@@ -2,17 +2,24 @@ const ora = require('ora')
 const path = require('path')
 const fs = require('fs-extra')
 const clone = require('git-clone')
+const isGitURL = require('is-git-url')
 const exec = require("child_process").exec
 
 module.exports.scaffold = (dir, repo, cmdObj) => {
+
   dir = dir || 'maizzle'
   repo = repo || 'https://github.com/maizzle/maizzle.git'
+
+  if (!isGitURL(repo)) {
+    console.log(`Error: Invalid Git repository URL (${repo})`)
+    process.exit()
+  }
 
   let dest = path.join(process.cwd(), dir)
   let spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
 
   if (fs.existsSync(dest)) {
-    return spinner.fail(`The ${dest} directory already exists!`)
+    return spinner.fail(`Error: ${dest} directory already exists!`)
   }
 
   return clone(repo, dest, async () => {
