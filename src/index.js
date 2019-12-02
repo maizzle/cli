@@ -15,7 +15,7 @@ module.exports = () => {
   cli
     .command('build [env]')
     .description(`compile email templates and output them to disk`)
-    .action((env) => {
+    .action(env => {
       try {
         const Maizzle = importCwd('./bootstrap')
         Maizzle.build(env)
@@ -36,7 +36,14 @@ module.exports = () => {
       }
     })
 
+  cli.on('command:*', () => {
+    console.error('Invalid command: %s\nSee --help for a list of available commands.', cli.args.join(' '))
+    process.exit(1)
+  })
+
   cli.parse(process.argv)
 
-  if (!cli.args.length) cli.help()
+  if (!process.argv.slice(2).length) {
+    cli.help()
+  }
 }
