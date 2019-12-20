@@ -36,13 +36,12 @@ module.exports = () => {
   cli
     .option('-v, --version', 'output current framework and CLI versions')
     .on('option:version', () => {
+      const pkg = require('../package.json')
       try {
-        const pkg = require('../package.json')
         const maizzle = importCwd('./node_modules/@maizzle/framework/package.json')
         console.log(`Framework v${maizzle.version}\nCLI v${pkg.version}`)
       } catch (error) {
-        console.error(`Error: Cannot find framework package. \nMake sure it's installed and that you're executing this command in the root directory of your project.\n`)
-        console.error(error)
+        console.log(`CLI v${pkg.version}\nTo see your Framework version, run this command in the root directory of a Maizzle project.`)
       }
       process.exit()
     })
