@@ -7,8 +7,13 @@ const exec = require("child_process").exec
 
 module.exports.scaffold = (dir, repo, cmdObj) => {
 
-  dir = dir || 'maizzle'
-  repo = repo || 'https://github.com/maizzle/maizzle.git'
+  if (isGitURL(dir)) {
+    repo = dir
+    dir = path.parse(repo).name
+  } else {
+    dir = dir || 'maizzle'
+    repo = repo || 'https://github.com/maizzle/maizzle.git'
+  }
 
   if (!isGitURL(repo)) {
     console.log(`Error: Invalid Git repository URL (${repo})`)
