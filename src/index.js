@@ -36,6 +36,30 @@ module.exports = () => {
     })
 
   cli
+    .command('make:template <filename>')
+    .option('-d, --dir <dir>', 'directory where the file should be output')
+    .description('scaffold a new Template')
+    .action((filename, cmdObj) => {
+      if (path.parse(filename).ext === '') {
+        throw(`Error: <filename> argument must have an extension, i.e. ${filename}.html`)
+      }
+
+      try {
+        const layout = fs.readFileSync(`${__dirname}/stubs/template.njk`, 'utf-8')
+        const destination = cmdObj.dir ? path.resolve(`${cmdObj.dir}/${filename}`) : path.resolve(`${process.cwd()}/src/templates/${filename}`)
+
+        if (fs.existsSync(destination)) {
+          throw(`Error: ${destination} already exists.`)
+        }
+
+        fs.outputFileSync(destination, layout)
+        console.log(`✔ Successfully created new Template in ${destination}`)
+      } catch (error) {
+        throw error
+      }
+    })
+
+  cli
     .command('build [env]')
     .description('compile email templates and output them to disk')
     .action(env => {
