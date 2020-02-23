@@ -13,7 +13,7 @@ module.exports = () => {
 
   cli
     .command('make:layout <filename>')
-    .option('-d, --dir <dir>', 'directory where the file should be output')
+    .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Layout')
     .action((filename, cmdObj) => {
       if (path.parse(filename).ext === '') {
@@ -22,7 +22,7 @@ module.exports = () => {
 
       try {
         const layout = fs.readFileSync(`${__dirname}/stubs/layout.njk`, 'utf-8')
-        const destination = cmdObj.dir ? path.resolve(`${cmdObj.dir}/${filename}`) : path.resolve(`${process.cwd()}/src/layouts/${filename}`)
+        const destination = cmdObj.directory ? path.resolve(`${cmdObj.directory}/${filename}`) : path.resolve(`${process.cwd()}/src/layouts/${filename}`)
 
         if (fs.existsSync(destination)) {
           throw(`Error: ${destination} already exists.`)
@@ -37,7 +37,7 @@ module.exports = () => {
 
   cli
     .command('make:template <filename>')
-    .option('-d, --dir <dir>', 'directory where the file should be output')
+    .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Template')
     .action((filename, cmdObj) => {
       if (path.parse(filename).ext === '') {
@@ -46,7 +46,7 @@ module.exports = () => {
 
       try {
         const template = fs.readFileSync(`${__dirname}/stubs/template.njk`, 'utf-8')
-        const destination = cmdObj.dir ? path.resolve(`${cmdObj.dir}/${filename}`) : path.resolve(`${process.cwd()}/src/templates/${filename}`)
+        const destination = cmdObj.directory ? path.resolve(`${cmdObj.directory}/${filename}`) : path.resolve(`${process.cwd()}/src/templates/${filename}`)
 
         if (fs.existsSync(destination)) {
           throw(`Error: ${destination} already exists.`)
