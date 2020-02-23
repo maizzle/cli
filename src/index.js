@@ -60,6 +60,27 @@ module.exports = () => {
     })
 
   cli
+    .command('make:config <env>')
+    .option('-f, --full', 'scaffold a full config')
+    .description('scaffold a new Config')
+    .action((env, cmdObj) => {
+      try {
+        const config = fs.readFileSync(`${__dirname}/stubs/config/${cmdObj.full ? 'full' : 'base'}.js`, 'utf-8')
+        const destination = path.resolve(`${process.cwd()}/config.${env}.js`)
+
+        if (fs.existsSync(destination)) {
+          throw(`Error: ${destination} already exists.`)
+        }
+
+        const configString = config.replace('build_local', `build_${env}`)
+        fs.outputFileSync(destination, configString)
+        console.log(`✔ Successfully created new Config in ${destination}`)
+      } catch (error) {
+        throw error
+      }
+    })
+
+  cli
     .command('build [env]')
     .description('compile email templates and output them to disk')
     .action(env => {
