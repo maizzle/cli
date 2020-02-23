@@ -45,14 +45,14 @@ module.exports = () => {
       }
 
       try {
-        const layout = fs.readFileSync(`${__dirname}/stubs/template.njk`, 'utf-8')
+        const template = fs.readFileSync(`${__dirname}/stubs/template.njk`, 'utf-8')
         const destination = cmdObj.dir ? path.resolve(`${cmdObj.dir}/${filename}`) : path.resolve(`${process.cwd()}/src/templates/${filename}`)
 
         if (fs.existsSync(destination)) {
           throw(`Error: ${destination} already exists.`)
         }
 
-        fs.outputFileSync(destination, layout)
+        fs.outputFileSync(destination, template)
         console.log(`✔ Successfully created new Template in ${destination}`)
       } catch (error) {
         throw error
