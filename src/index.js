@@ -16,19 +16,19 @@ module.exports = () => {
     .command('make:layout <filename>')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Layout')
-    .action((filename, cmd) => Layout.scaffold(filename, cmd).catch(() => {}))
+    .action((filename, cmd) => Layout.scaffold(filename, cmd))
 
   cli
     .command('make:template <filename>')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Template')
-    .action((filename, cmd) => Template.scaffold(filename, cmd).catch(() => {}))
+    .action((filename, cmd) => Template.scaffold(filename, cmd))
 
   cli
     .command('make:config <env>')
     .option('-f, --full', 'scaffold a full config')
     .description('scaffold a new Config')
-    .action((env, cmd) => Config.scaffold(env, cmd).catch(() => {}))
+    .action((env, cmd) => Config.scaffold(env, cmd))
 
   cli
     .command('build [env]')
