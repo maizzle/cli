@@ -10,39 +10,39 @@ module.exports = {
       'background-color': 'bgcolor',
       'background-image': 'background',
       'text-align': 'align',
-      'vertical-align': 'valign',
+      'vertical-align': 'valign'
     },
     applySizeAttribute: {
       width: [],
-      height: [],
+      height: []
     },
-    excludedProperties: null,
+    excludedProperties: null
   },
   cleanup: {
     purgeCSS: {
       content: [
         'src/layouts/**/*.*',
         'src/partials/**/*.*',
-        'src/components/**/*.*',
+        'src/components/**/*.*'
       ],
       whitelist: [],
-      whitelistPatterns: [],
+      whitelistPatterns: []
     },
     removeUnusedCSS: {
-      enabled: false,
+      enabled: false
     },
     replaceStrings: false,
     keepOnlyAttributeSizes: {
       width: [],
-      height: [],
+      height: []
     },
-    preferBgColorAttribute: false,
+    preferBgColorAttribute: false
   },
   applyExtraAttributes: {
     table: {
       cellpadding: 0,
       cellspacing: 0,
-      role: 'presentation',
+      role: 'presentation'
     },
     img: {
       alt: ''
@@ -52,10 +52,10 @@ module.exports = {
   prettify: {
     enabled: false,
     indent_inner_html: false,
-    ocd: true,
+    ocd: true
   },
   minify: {
-    enabled: false,
+    enabled: false
   },
   browsersync: {
     directory: true,
@@ -66,8 +66,8 @@ module.exports = {
     watch: [
       'src/layouts/**/*.*',
       'src/partials/**/*.*',
-      'src/components/**/*.*',
-    ],
+      'src/components/**/*.*'
+    ]
   },
   markdown: {
     baseUrl: null,
@@ -90,19 +90,19 @@ module.exports = {
   build: {
     destination: {
       path: 'build_local',
-      extension: 'html',
+      extension: 'html'
     },
     templates: {
       source: 'src/templates',
-      filetypes: 'html|njk|nunjucks',
+      filetypes: 'html|njk|nunjucks'
     },
     tailwind: {
       css: 'src/assets/css/main.css',
-      config: 'tailwind.config.js',
+      config: 'tailwind.config.js'
     },
     assets: {
       source: 'src/assets/images',
-      destination: 'images',
-    },
-  },
+      destination: 'images'
+    }
+  }
 }

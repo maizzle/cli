@@ -2,7 +2,7 @@ const ora = require('ora')
 const path = require('path')
 const fs = require('fs-extra')
 
-module.exports.scaffold = (filename, cmdObj) => {
+module.exports.scaffold = (filename, cmd) => {
   const spinner = ora()
 
   if (['', '.'].includes(path.parse(filename).ext)) {
@@ -11,9 +11,7 @@ module.exports.scaffold = (filename, cmdObj) => {
   }
 
   const layout = fs.readFileSync(path.resolve(__dirname, '../../stubs/layout.html'), 'utf8')
-  const destination = cmdObj.directory
-    ? path.resolve(`${cmdObj.directory}/${filename}`)
-    : path.resolve(`${process.cwd()}/src/layouts/${filename}`)
+  const destination = cmd.directory ? path.resolve(`${cmd.directory}/${filename}`) : path.resolve(`${process.cwd()}/src/layouts/${filename}`)
 
   if (fs.existsSync(destination)) {
     spinner.fail(`File exists: ${destination}`)
