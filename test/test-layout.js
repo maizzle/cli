@@ -15,7 +15,7 @@ test.afterEach.always(async t => {
 })
 
 test('it scaffolds a layout', async t => {
-  await execa('node ./bin/maizzle make:layout layout.html')
+  await execa.command('node bin/maizzle make:layout layout.html')
 
   t.context.folder = 'src/layouts'
   const file = `${t.context.folder}/layout.html`
