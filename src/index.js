@@ -1,8 +1,7 @@
-const path = require('path')
-const fs = require('fs-extra')
 const cli = require('commander')
 const importCwd = require('import-cwd')
 const Project = require('./commands/new')
+const Config = require('./commands/make/config')
 const Layout = require('./commands/make/layout')
 const Template = require('./commands/make/template')
 
@@ -29,22 +28,7 @@ module.exports = () => {
     .command('make:config <env>')
     .option('-f, --full', 'scaffold a full config')
     .description('scaffold a new Config')
-    .action((env, cmdObj) => {
-      try {
-        const config = fs.readFileSync(`${__dirname}/stubs/config/${cmdObj.full ? 'full' : 'base'}.js`, 'utf-8')
-        const destination = path.resolve(`${process.cwd()}/config.${env}.js`)
-
-        if (fs.existsSync(destination)) {
-          throw(`Error: ${destination} already exists.`)
-        }
-
-        const configString = config.replace('build_local', `build_${env}`)
-        fs.outputFileSync(destination, configString)
-        console.log(`✔ Successfully created new Config in ${destination}`)
-      } catch (error) {
-        throw error
-      }
-    })
+    .action((env, cmdObj) => Config.scaffold(env, cmdObj))
 
   cli
     .command('build [env]')
