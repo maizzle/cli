@@ -4,7 +4,7 @@ const fs = require('fs-extra')
 const execa = require('execa')
 const {isGitURL} = require('../utils')
 
-module.exports.scaffold = async (repo, dir, cmdObj) => {
+module.exports.scaffold = async (repo, dir, cmd) => {
   repo = repo || 'https://github.com/maizzle/maizzle.git'
   dir = dir || path.parse(repo).name
 
@@ -12,7 +12,7 @@ module.exports.scaffold = async (repo, dir, cmdObj) => {
   const spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
 
   if (!isGitURL(repo)) {
-    spinner.fail(`fatal: repository '${repo}' not found`)
+    spinner.fail(`not a Git repository: ${repo}`)
     process.exit()
   }
 
@@ -22,7 +22,7 @@ module.exports.scaffold = async (repo, dir, cmdObj) => {
       await fs.remove('.git')
       await fs.remove('.github')
 
-      if (cmdObj.deps) {
+      if (cmd.deps) {
         spinner.text = 'Project downloaded, installing NPM dependencies...'
 
         execa('npm', ['install'])
