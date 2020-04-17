@@ -5,7 +5,7 @@ const fs = require('fs-extra')
 module.exports.scaffold = (filename, cmdObj) => {
   const spinner = ora()
 
-  if (path.parse(filename).ext === '') {
+  if (['', '.'].includes(path.parse(filename).ext)) {
     spinner.fail(`<filename> argument must include an extension, i.e. ${filename}.html`)
     process.exit(1)
   }
