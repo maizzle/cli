@@ -1,5 +1,6 @@
 const test = require('ava')
 const fs = require('fs-extra')
+const execa = require('execa')
 const Layout = require('../src/commands/make/layout')
 
 test.beforeEach(t => {
@@ -14,7 +15,7 @@ test.afterEach.always(async t => {
 })
 
 test('it scaffolds a layout', async t => {
-  await Layout.scaffold('layout.html')
+  await execa('node bin/maizzle make:layout layout.html')
 
   t.context.folder = 'src/layouts'
   const file = `${t.context.folder}/layout.html`
@@ -24,7 +25,7 @@ test('it scaffolds a layout', async t => {
 })
 
 test('it scaffolds a layout in the specified directory', async t => {
-  await Layout.scaffold('layout.html', {directory: t.context.folder})
+  await execa(`node bin/maizzle make:layout layout.html -d ${t.context.folder}`)
 
   const file = `${t.context.folder}/layout.html`
 
@@ -33,14 +34,15 @@ test('it scaffolds a layout in the specified directory', async t => {
 })
 
 test('it requires a file extension', async t => {
-  await Layout.scaffold('example', {directory: t.context.folder})
+  await execa('node bin/maizzle make:layout layout')
+
   t.false(fs.existsSync(`${t.context.folder}/example`))
 })
 
 test('it does not overwrite existing files', async t => {
-  await Layout.scaffold('layout.html', {directory: t.context.folder})
+  await execa(`node bin/maizzle make:layout layout.html -d ${t.context.folder}`)
   const mtimeMs = fs.statSync(`${t.context.folder}/layout.html`).mtimeMs
-  await Layout.scaffold('layout.html', {directory: t.context.folder})
+  await execa(`node bin/maizzle make:layout layout.html -d ${t.context.folder}`)
 
   t.is(fs.statSync(`${t.context.folder}/layout.html`).mtimeMs, mtimeMs)
 })
