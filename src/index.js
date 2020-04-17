@@ -33,26 +33,12 @@ module.exports = () => {
   cli
     .command('build [env]')
     .description('compile email templates and output them to disk')
-    .action(env => {
-      try {
-        const Maizzle = importCwd('./bootstrap')
-        Maizzle.build(env)
-      } catch (err) {
-        throw err
-      }
-    })
+    .action(env => importCwd('./node_modules/@maizzle/framework/src').build(env))
 
-  cli
+    cli
     .command('serve')
     .description('start a local development server and watch for file changes')
-    .action(() => {
-      try {
-        const Maizzle = importCwd('./bootstrap')
-        Maizzle.serve()
-      } catch (err) {
-        throw err
-      }
-    })
+    .action(() => importCwd('./node_modules/@maizzle/framework/src').serve())
 
   cli
     .option('-v, --version', 'output current framework and CLI versions')
