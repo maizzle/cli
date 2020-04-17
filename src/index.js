@@ -16,7 +16,7 @@ module.exports = () => {
     .command('make:layout <filename>')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Layout')
-    .action((filename, cmd) => Layout.scaffold(filename, cmd))
+    .action((filename, cmd) => Layout.scaffold(filename, cmd).catch(() => {}))
 
   cli
     .command('make:template <filename>')
