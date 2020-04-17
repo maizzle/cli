@@ -31,10 +31,9 @@
   },
   "dependencies": {
     "commander": "^5.0.0",
+    "execa": "^4.0.0",
     "fs-extra": "^9.0.0",
-    "git-clone": "^0.1.0",
     "import-cwd": "^3.0.0",
-    "is-git-url": "^1.0.0",
     "np": "*",
     "ora": "^4.0.2"
   }

@@ -1,53 +1,36 @@
 const ora = require('ora')
 const path = require('path')
 const fs = require('fs-extra')
-const clone = require('git-clone')
-const isGitURL = require('is-git-url')
-const exec = require("child_process").exec
+const execa = require('execa')
+const {isGitURL} = require('../utils')
 
-module.exports.scaffold = (dir, repo, cmdObj) => {
+module.exports.scaffold = async (repo, dir, cmdObj) => {
+  repo = repo || 'https://github.com/maizzle/maizzle.git'
+  dir = dir || path.parse(repo).name
 
-  if (isGitURL(dir)) {
-    repo = dir
-    dir = path.parse(repo).name
-  } else {
-    dir = dir || 'maizzle'
-    repo = repo || 'https://github.com/maizzle/maizzle.git'
-  }
+  const dest = path.join(process.cwd(), dir)
+  const spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
 
   if (!isGitURL(repo)) {
-    console.log(`Error: Invalid Git repository URL (${repo})`)
+    spinner.fail(`fatal: repository '${repo}' not found`)
     process.exit()
   }
 
-  let dest = path.join(process.cwd(), dir)
-  let spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
-
-  if (fs.existsSync(dest)) {
-    return spinner.fail(`Error: ${dest} directory already exists!`)
-  }
-
-  return clone(repo, dest, async () => {
-    try {
+  execa('git', ['clone', repo, dir])
+    .then(async () => {
       process.chdir(dest)
-
       await fs.remove('.git')
       await fs.remove('.github')
 
       if (cmdObj.deps) {
-        spinner.start('Project downloaded, installing NPM dependencies...')
+        spinner.text = 'Project downloaded, installing NPM dependencies...'
 
-        exec("npm install", (err, stdout, stderr) => {
-          if (err) {
-            return spinner.fail(err)
-          }
-          spinner.succeed('Maizzle project initialized, go create awesome emails!')
-        })
+        execa('npm', ['install'])
+          .then(() => spinner.succeed('Maizzle project initialized, go create awesome emails!'))
+          .catch(({stderr}) => spinner.fail(stderr))
       } else {
-        spinner.succeed('Maizzle project initialized (without NPM dependencies).')
+        spinner.succeed(`Maizzle project initialized. Remember to install the dependencies by running \`cd ${dir}\` and then \`npm install\``)
       }
-    } catch (error) {
-      spinner.fail(error)
-    }
-  })
+    })
+    .catch(({stderr}) => spinner.fail(stderr))
 }

@@ -1,5 +1,5 @@
-const fs = require('fs-extra')
 const path = require('path')
+const fs = require('fs-extra')
 const cli = require('commander')
 const importCwd = require('import-cwd')
 const Project = require('./commands/new')
@@ -9,7 +9,7 @@ module.exports = () => {
     .command('new [path] [repo]')
     .description('scaffold a new Maizzle project')
     .option('-d, --no-deps', `Don't install NPM dependencies`)
-    .action((path, repo, cmdObj) => Project.scaffold(path, repo, cmdObj))
+    .action((repo, dir, cmdObj) => Project.scaffold(repo, dir, cmdObj))
 
   cli
     .command('make:layout <filename>')
