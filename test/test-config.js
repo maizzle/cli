@@ -13,26 +13,24 @@ test.afterEach.always(async t => {
   }
 })
 
-test('it scaffolds a basic config', t => {
-  return Config.scaffold('basic', {full: false})
-    .then(() => {
-      t.context.file = 'config.basic.js'
-      const config = require(`../${t.context.file}`)
+test('it scaffolds a basic config', async t => {
+  await Config.scaffold('basic', {full: false})
 
-      t.true(fs.existsSync(t.context.file))
-      t.is(config.build.destination.path, 'build_basic')
-    })
+  t.context.file = 'config.basic.js'
+  const config = require(`../${t.context.file}`)
+
+  t.true(fs.existsSync(t.context.file))
+  t.is(config.build.destination.path, 'build_basic')
 })
 
-test('it scaffolds a full config', t => {
-  return Config.scaffold('full', {full: true})
-    .then(() => {
-      t.context.file = 'config.full.js'
-      const config = require(`../${t.context.file}`)
+test('it scaffolds a full config', async t => {
+  await Config.scaffold('full', {full: true})
 
-      t.true(fs.existsSync(t.context.file))
-      t.is(config.build.assets.destination, 'images')
-    })
+  t.context.file = 'config.full.js'
+  const config = require(`../${t.context.file}`)
+
+  t.true(fs.existsSync(t.context.file))
+  t.is(config.build.assets.destination, 'images')
 })
 
 test('it does not overwrite existing files', async t => {

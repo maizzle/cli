@@ -22,7 +22,7 @@ module.exports = () => {
     .command('make:template <filename>')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Template')
-    .action((filename, cmd) => Template.scaffold(filename, cmd))
+    .action((filename, cmd) => Template.scaffold(filename, cmd).catch(() => {}))
 
   cli
     .command('make:config <env>')
