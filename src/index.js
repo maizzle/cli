@@ -3,6 +3,7 @@ const fs = require('fs-extra')
 const cli = require('commander')
 const importCwd = require('import-cwd')
 const Project = require('./commands/new')
+const Layout = require('./commands/make/layout')
 
 module.exports = () => {
   cli
@@ -15,25 +16,7 @@ module.exports = () => {
     .command('make:layout <filename>')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Layout')
-    .action((filename, cmdObj) => {
-      if (path.parse(filename).ext === '') {
-        throw(`Error: <filename> argument must have an extension, i.e. ${filename}.html`)
-      }
-
-      try {
-        const layout = fs.readFileSync(`${__dirname}/stubs/layout.njk`, 'utf-8')
-        const destination = cmdObj.directory ? path.resolve(`${cmdObj.directory}/${filename}`) : path.resolve(`${process.cwd()}/src/layouts/${filename}`)
-
-        if (fs.existsSync(destination)) {
-          throw(`Error: ${destination} already exists.`)
-        }
-
-        fs.outputFileSync(destination, layout)
-        console.log(`✔ Successfully created new Layout in ${destination}`)
-      } catch (error) {
-        throw error
-      }
-    })
+    .action((filename, cmdObj) => Layout.scaffold(filename, cmdObj))
 
   cli
     .command('make:template <filename>')
