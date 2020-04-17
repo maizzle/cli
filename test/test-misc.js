@@ -11,6 +11,5 @@ test('displays CLI version', async t => {
 test('shows help on invalid command', async t => {
   const error = await t.throwsAsync(execa.command('node bin/maizzle inexistent'))
 
-  t.is(error.code, 'ENOENT')
-  t.truthy(error.stderr.includes('Invalid command: inexistent'))
+  t.is(error.stderr, 'Invalid command: inexistent\nSee --help for a list of available commands.')
 })
