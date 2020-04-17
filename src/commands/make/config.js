@@ -2,7 +2,7 @@ const ora = require('ora')
 const path = require('path')
 const fs = require('fs-extra')
 
-module.exports.scaffold = (env, cmd) => {
+module.exports.scaffold = (env, cmd = {}) => {
   const spinner = ora()
 
   const config = fs.readFileSync(path.resolve(__dirname, `../../stubs/config/${cmd.full ? 'full' : 'base'}.js`), 'utf8')
