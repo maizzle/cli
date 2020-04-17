@@ -28,7 +28,7 @@ module.exports = () => {
     .command('make:config <env>')
     .option('-f, --full', 'scaffold a full config')
     .description('scaffold a new Config')
-    .action((env, cmd) => Config.scaffold(env, cmd))
+    .action((env, cmd) => Config.scaffold(env, cmd).catch(() => {}))
 
   cli
     .command('build [env]')

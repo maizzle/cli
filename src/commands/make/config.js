@@ -9,11 +9,13 @@ module.exports.scaffold = (env, cmd) => {
   const destination = path.resolve(`${process.cwd()}/config.${env}.js`)
 
   if (fs.existsSync(destination)) {
-    spinner.fail(`File exists: ${destination}`)
-    process.exit(1)
+    return spinner.fail(`File exists: ${destination}`)
   }
 
-  fs.outputFile(destination, config.replace('build_local', `build_${env}`))
+  return fs.outputFile(destination, config.replace('build_local', `build_${env}`))
     .then(() => spinner.succeed(`Created new Config in ${destination}`))
-    .catch(error => spinner.fail(error.message))
+    .catch(error => {
+      spinner.fail(error.message)
+      throw error
+    })
 }
