@@ -4,6 +4,7 @@ const cli = require('commander')
 const importCwd = require('import-cwd')
 const Project = require('./commands/new')
 const Layout = require('./commands/make/layout')
+const Template = require('./commands/make/template')
 
 module.exports = () => {
   cli
@@ -22,25 +23,7 @@ module.exports = () => {
     .command('make:template <filename>')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Template')
-    .action((filename, cmdObj) => {
-      if (path.parse(filename).ext === '') {
-        throw(`Error: <filename> argument must have an extension, i.e. ${filename}.html`)
-      }
-
-      try {
-        const template = fs.readFileSync(`${__dirname}/stubs/template.njk`, 'utf-8')
-        const destination = cmdObj.directory ? path.resolve(`${cmdObj.directory}/${filename}`) : path.resolve(`${process.cwd()}/src/templates/${filename}`)
-
-        if (fs.existsSync(destination)) {
-          throw(`Error: ${destination} already exists.`)
-        }
-
-        fs.outputFileSync(destination, template)
-        console.log(`✔ Successfully created new Template in ${destination}`)
-      } catch (error) {
-        throw error
-      }
-    })
+    .action((filename, cmdObj) => Template.scaffold(filename, cmdObj))
 
   cli
     .command('make:config <env>')
