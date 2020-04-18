@@ -46,7 +46,9 @@ test('it does not overwrite existing files', async t => {
 })
 
 test('it does not scaffold template with invalid file name', async t => {
-  await execa.command(`node bin/maizzle make:template templ*te.html -d ${t.context.folder}`)
+  const result = await execa.command(`node bin/maizzle make:template templ\*ate.html -d ${t.context.folder}`) // eslint-disable-line
+  const error = await t.throwsAsync(fs.readdir('t.context.folder'))
 
-  t.false(fs.existsSync(`${t.context.folder}/templ*te.html`))
+  t.is(error.code, 'ENOENT')
+  t.true(result.stderr.includes('Cannot create'))
 })

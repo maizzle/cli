@@ -44,8 +44,10 @@ test('it does not overwrite existing files', async t => {
   t.falsy(config.build.assets)
 })
 
-test('it does not scaffold config with invalid file name', async t => {
-  await execa.command('node bin/maizzle make:config f*ck')
+test('it does not scaffold template with invalid file name', async t => {
+  const result = await execa.command('node bin/maizzle make:config f\*rk') // eslint-disable-line
+  const error = await t.throwsAsync(fs.readFile('config.f\*rk.js', 'utf8')) // eslint-disable-line
 
-  t.false(fs.existsSync('config.f*ck.js'))
+  t.is(error.code, 'ENOENT')
+  t.true(result.stderr.includes('Cannot create'))
 })
