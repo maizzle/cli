@@ -47,7 +47,7 @@ test('it does not overwrite existing files', async t => {
 })
 
 test('it does not scaffold layout with invalid file name', async t => {
-  await execa.command(`node bin/maizzle make:layout lay*ut.html -d ${t.context.folder}`)
-
-  t.false(fs.existsSync(`${t.context.folder}/lay*ut.html`))
+  await execa.command(`node bin/maizzle make:layout lay?ut.html -d ${t.context.folder}`)
+  const error = await t.throwsAsync(fs.readFile(`${t.context.folder}/lay?ut.html`, 'utf8'))
+  t.is(error.code, 'ENOENT')
 })
