@@ -45,11 +45,3 @@ test('it does not overwrite existing files', async t => {
 
   t.is(fs.statSync(`${t.context.folder}/layout.html`).mtimeMs, mtimeMs)
 })
-
-test('it does not scaffold layout with invalid file name', async t => {
-  const result = await execa.command(`node bin/maizzle make:layout lay\*ut.html -d ${t.context.folder}`) // eslint-disable-line
-  const error = await t.throwsAsync(fs.readdir('t.context.folder'))
-
-  t.is(error.code, 'ENOENT')
-  t.true(result.stderr.includes('Cannot create'))
-})

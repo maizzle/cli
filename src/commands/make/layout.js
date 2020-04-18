@@ -18,5 +18,5 @@ module.exports.scaffold = (filename, cmd = {}) => {
 
   return fs.outputFile(destination, layout)
     .then(() => spinner.succeed(`Created new Layout in ${destination}`))
-    .catch(error => spinner.fail(`Cannot create ${error.path}`))
+    .catch(() => {})
 }
