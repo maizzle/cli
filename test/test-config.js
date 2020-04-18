@@ -45,7 +45,7 @@ test('it does not overwrite existing files', async t => {
 })
 
 test('it does not scaffold template with invalid file name', async t => {
-  const char = 'TRAVIS' in process.env && 'CI' in process.env ? '\0' : '>'
+  const char = 'TRAVIS' in process.env && 'CI' in process.env ? '\/' : '>'
   const result = await execa.command(`node bin/maizzle make:config f${char}rk`)
 
   t.true(result.stderr.includes('Cannot create'))
