@@ -1,7 +1,6 @@
 const test = require('ava')
 const fs = require('fs-extra')
 const execa = require('execa')
-const Template = require('../src/commands/make/template')
 
 test.beforeEach(t => {
   t.context.folder = '_temp_' + Math.random().toString(36).slice(2, 9)
@@ -46,8 +45,8 @@ test('it does not overwrite existing files', async t => {
   t.is(fs.statSync(`${t.context.folder}/template.html`).mtimeMs, mtimeMs)
 })
 
-test('throws if invalid file name is used', async t => {
-  await t.throwsAsync(async () => {
-    await Template.scaffold('*.html', {directory: t.context.folder})
-  }, {instanceOf: Error, code: 'ENOENT'})
+test('it does not scaffold template with invalid file name', async t => {
+  await execa.command(`node bin/maizzle make:template templ*te.html -d ${t.context.folder}`)
+
+  t.false(fs.existsSync(`${t.context.folder}/templ*te.html`))
 })

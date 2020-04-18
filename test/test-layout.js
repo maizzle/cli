@@ -1,7 +1,6 @@
 const test = require('ava')
 const fs = require('fs-extra')
 const execa = require('execa')
-const Layout = require('../src/commands/make/layout')
 
 test.beforeEach(t => {
   t.context.folder = '_temp_' + Math.random().toString(36).slice(2, 9)
@@ -47,8 +46,8 @@ test('it does not overwrite existing files', async t => {
   t.is(fs.statSync(`${t.context.folder}/layout.html`).mtimeMs, mtimeMs)
 })
 
-test('throws if invalid file name is used', async t => {
-  await t.throwsAsync(async () => {
-    await Layout.scaffold('*.html', {directory: t.context.folder})
-  }, {instanceOf: Error, code: 'ENOENT'})
+test('it does not scaffold layout with invalid file name', async t => {
+  await execa.command(`node bin/maizzle make:layout lay*ut.html -d ${t.context.folder}`)
+
+  t.false(fs.existsSync(`${t.context.folder}/lay*ut.html`))
 })

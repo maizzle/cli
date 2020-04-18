@@ -14,8 +14,5 @@ module.exports.scaffold = (env, cmd = {}) => {
 
   return fs.outputFile(destination, config.replace('build_local', `build_${env}`))
     .then(() => spinner.succeed(`Created new Config in ${destination}`))
-    .catch(error => {
-      spinner.fail(error.message)
-      throw error
-    })
+    .catch(error => spinner.fail(`Cannot create ${error.path}`))
 }

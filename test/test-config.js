@@ -1,7 +1,6 @@
 const test = require('ava')
 const fs = require('fs-extra')
 const execa = require('execa')
-const Config = require('../src/commands/make/config')
 
 test.beforeEach(t => {
   t.context.file = ''
@@ -45,8 +44,8 @@ test('it does not overwrite existing files', async t => {
   t.falsy(config.build.assets)
 })
 
-test('throws if invalid file name is used', async t => {
-  await t.throwsAsync(async () => {
-    await Config.scaffold('*', {full: false})
-  }, {instanceOf: Error, code: 'ENOENT'})
+test('it does not scaffold config with invalid file name', async t => {
+  await execa.command('node bin/maizzle make:config f*ck')
+
+  t.false(fs.existsSync('config.f*ck.js'))
 })
