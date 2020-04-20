@@ -62,7 +62,7 @@ module.exports.scaffold = async (repo, dir, cmd) => {
       if (cmd.deps) {
         spinner.start('Installing NPM dependencies')
 
-        execa('npm', ['install'])
+        return execa('npm', ['install'])
           .then(() => {
             return spinner
               .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Installed NPM dependencies'})
@@ -70,12 +70,12 @@ module.exports.scaffold = async (repo, dir, cmd) => {
               .info(`Now \`cd ${dir}\` and start building your emails`)
           })
           .catch(({stderr}) => spinner.fail(stderr))
-      } else {
-        return spinner
-          .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Installed NPM dependencies'})
-          .succeed('Maizzle project initialized')
-          .info(`Remember to install the dependencies by running \`cd ${dir}\` and then \`npm install\``)
       }
+
+      return spinner
+        .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Installed NPM dependencies'})
+        .succeed('Maizzle project initialized')
+        .info(`Remember to install the dependencies by running \`cd ${dir}\` and then \`npm install\``)
     })
     .catch(({stderr}) => spinner.fail(stderr))
 }
