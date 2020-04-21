@@ -18,19 +18,18 @@ module.exports.scaffold = async (repo, dir, cmd) => {
         {
           name: 'starter',
           type: 'confirm',
-          message: 'Scaffold based on a starter?',
+          message: 'Do you want to use a custom Starter',
           default: false
         },
         {
           name: 'repo',
           message: 'Starter Git repository URL',
-          default: 'https://github.com/maizzle/maizzle.git',
           when: answers => answers.starter
         },
         {
           name: 'dependencies',
           type: 'confirm',
-          message: 'Install NPM dependencies?',
+          message: 'Install NPM dependencies',
           default: true
         }
       ])
