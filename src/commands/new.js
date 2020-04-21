@@ -73,7 +73,7 @@ module.exports.scaffold = async (repo, dir, cmd) => {
 
       return spinner
         .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Installed NPM dependencies'})
-        .succeed('Maizzle project initialized')
+        .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Maizzle project initialized'})
         .info(`Remember to install the dependencies by running \`cd ${dir}\` and then \`npm install\``)
     })
     .catch(({stderr}) => spinner.fail(stderr))
