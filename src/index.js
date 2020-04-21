@@ -13,7 +13,7 @@ module.exports = () => {
     .action((repo, dir, cmd) => Project.scaffold(repo, dir, cmd))
 
   cli
-    .command('make:layout <filename>')
+    .command('make:layout [filename]')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Layout')
     .action((filename, cmd) => Layout.scaffold(filename, cmd))
