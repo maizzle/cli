@@ -1,108 +1,162 @@
 module.exports = {
-  doctype: 'html',
-  language: 'en',
-  charset: 'utf-8',
-  googleFonts: '',
+  build: {
+    destination: {
+      path: 'build_local',
+      extension: 'html',
+    },
+    assets: {
+      source: 'src/assets/images',
+      destination: 'images',
+    },
+    browsersync: {
+      watch: [
+        'src/**/*.*',
+        'tailwind.config.js',
+      ],
+    },
+    includes: {
+      root: 'src/partials',
+    },
+    layouts: {
+      root: 'src/layouts',
+    },
+    templates: {
+      root: 'src/templates',
+      extensions: 'html',
+    },
+    tailwind: {
+      css: 'src/assets/css/main.css',
+      config: 'tailwind.config.js',
+    },
+    posthtml: {
+      plugins: [],
+      options: {},
+      fetch: {},
+      outlook: {},
+      expressions: {},
+    },
+    postcss: {
+      plugins: [],
+    },
+    fail: 'silent',
+  },
   baseImageURL: '',
+  googleFonts: '',
   inlineCSS: {
     enabled: false,
     styleToAttribute: {
       'background-color': 'bgcolor',
       'background-image': 'background',
       'text-align': 'align',
-      'vertical-align': 'valign'
+      'vertical-align': 'valign',
     },
     applySizeAttribute: {
       width: [],
-      height: []
+      height: [],
     },
-    excludedProperties: null
-  },
-  cleanup: {
-    purgeCSS: {
-      content: [
-        'src/layouts/**/*.*',
-        'src/partials/**/*.*',
-        'src/components/**/*.*'
-      ],
-      whitelist: [],
-      whitelistPatterns: []
-    },
-    removeUnusedCSS: {
-      enabled: false
-    },
-    replaceStrings: false,
     keepOnlyAttributeSizes: {
       width: [],
-      height: []
+      height: [],
     },
-    preferBgColorAttribute: false
+    preferBgColorAttribute: {
+      enabled: false,
+    },
+    excludedProperties: null,
   },
-  applyExtraAttributes: {
+  purgeCSS: {
+    content: [
+      'src/layouts/**/*.*',
+      'src/partials/**/*.*',
+      'src/components/**/*.*',
+    ],
+    whitelist: [],
+    whitelistPatterns: [],
+    extractor: /[\w-/:%]+(?<!:)/g,
+  },
+  removeUnusedCSS: {
+    enabled: false,
+    whitelist: [],
+    backend: [
+      { heads: '{{', tails: '}}' },
+    ],
+    removeHTMLComments: false,
+    removeCSSComments: false,
+    uglifyClassNames: false,
+    doNotRemoveHTMLCommentsWhoseOpeningTagContains: ['[if', '[endif'],
+  },
+  replaceStrings: {},
+  removeAttributes: [],
+  safeClassNames: {},
+  extraAttributes: {
     table: {
       cellpadding: 0,
       cellspacing: 0,
-      role: 'presentation'
+      role: 'presentation',
     },
     img: {
       alt: ''
     }
   },
-  urlParameters: {},
+  transformContents: {},
+  urlParameters: {
+    _options: {
+      qs: {
+        encode: false
+      },
+      tags: ['a'],
+    }
+  },
   prettify: {
     enabled: false,
-    indent_inner_html: false,
-    ocd: true
+    unformatted: ['code', 'pre', 'em', 'strong', 'span'],
+    indent_inner_html: true,
+    indent_char: ' ',
+    indent_size: 2,
+    sep: '\n',
+    ocd: true,
   },
   minify: {
-    enabled: false
-  },
-  browsersync: {
-    directory: true,
-    notify: false,
-    open: false,
-    port: 3000,
-    tunnel: false,
-    watch: [
-      'src/layouts/**/*.*',
-      'src/partials/**/*.*',
-      'src/components/**/*.*'
+    enabled: false,
+    lineLengthLimit: 500,
+    removeIndentations: true,
+    removeLineBreaks: false,
+    breakToTheLeftOf: [
+      '</td',
+      '<html',
+      '<head',
+      '<meta',
+      '<table',
+      '<script',
+      '</script',
+      '<!DOCTYPE',
+      '<style',
+      '</style',
+      '<title',
+      '<body',
+      '@media',
+      '</html',
+      '</body',
+      '<!--[if',
+      '<!--<![endif'
     ]
   },
   markdown: {
     baseUrl: null,
     breaks: false,
     gfm: true,
-    headerIds: false,
+    headerIds: true,
     headerPrefix: '',
     highlight: null,
     langPrefix: 'language-',
     mangle: true,
-    pendantic: false,
+    pedantic: false,
+    renderer: null,
     sanitize: false,
     sanitizer: null,
     silent: false,
     smartLists: false,
     smartypants: false,
-    tables: true,
-    xhtml: false
+    tokenizer: null,
+    xhtml: false,
   },
-  build: {
-    destination: {
-      path: 'build_local',
-      extension: 'html'
-    },
-    templates: {
-      source: 'src/templates',
-      filetypes: 'html|njk|nunjucks'
-    },
-    tailwind: {
-      css: 'src/assets/css/main.css',
-      config: 'tailwind.config.js'
-    },
-    assets: {
-      source: 'src/assets/images',
-      destination: 'images'
-    }
-  }
 }

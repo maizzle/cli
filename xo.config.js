@@ -8,5 +8,6 @@ module.exports = {
     'promise/prefer-await-to-then': 0,
     'unicorn/no-abusive-eslint-disable': 0,
     quotes: ['error', 'single', {allowTemplateLiterals: true}]
-  }
+  },
+  ignores: ['src/stubs/**']
 }
