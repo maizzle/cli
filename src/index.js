@@ -19,7 +19,7 @@ module.exports = () => {
     .action((filename, cmd) => Layout.scaffold(filename, cmd))
 
   cli
-    .command('make:template <filename>')
+    .command('make:template [filename]')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Template')
     .action((filename, cmd) => Template.scaffold(filename, cmd))

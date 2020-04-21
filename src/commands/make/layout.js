@@ -30,7 +30,7 @@ module.exports.scaffold = async (filename, cmd = {}) => {
   const spinner = ora()
 
   if (['', '.'].includes(path.parse(filename).ext)) {
-    return spinner.fail(`<filename> argument must include an extension, i.e. ${filename}.html`)
+    return spinner.fail(`File name must include an extension, i.e. ${filename}.html`)
   }
 
   const html = fs.readFileSync(path.resolve(__dirname, '../../stubs/layout.html'), 'utf8')
