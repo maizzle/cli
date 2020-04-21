@@ -25,7 +25,7 @@ module.exports = () => {
     .action((filename, cmd) => Template.scaffold(filename, cmd))
 
   cli
-    .command('make:config <env>')
+    .command('make:config [env]')
     .option('-f, --full', 'scaffold a full config')
     .description('scaffold a new Config')
     .action((env, cmd) => Config.scaffold(env, cmd))
