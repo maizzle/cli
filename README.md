@@ -5,6 +5,8 @@
 [![Downloads][npm-stats-shield]][npm]
 [![License][license-shield]][license]
 
+<img src="https://github.com/maizzle/cli/blob/1.0/preview.gif?raw=true" width="387">
+
 Full documentation is available at https://maizzle.com
 
 ## Installation
