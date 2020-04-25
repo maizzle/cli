@@ -14,11 +14,11 @@ module.exports = {
         'tailwind.config.js',
       ],
     },
-    includes: {
-      root: 'src/partials',
+    components: {
+      root: './',
     },
     layouts: {
-      root: 'src/layouts',
+      root: './',
     },
     templates: {
       root: 'src/templates',
