@@ -5,8 +5,6 @@
 [![Downloads][npm-stats-shield]][npm]
 [![License][license-shield]][license]
 
-<img src="https://github.com/maizzle/cli/blob/1.0/preview.gif?raw=true" width="387">
-
 Full documentation is available at https://maizzle.com
 
 ## Installation
@@ -17,11 +15,13 @@ npm install -g @maizzle/cli
 
 ## Usage
 
-Create a project:
+Create a new project using the interactive prompt:
 
 ```sh
 maizzle new
 ```
+
+<img src="https://github.com/maizzle/cli/blob/1.0/preview.gif?raw=true" width="387">
 
 Change current directory:
 
@@ -40,6 +40,8 @@ Build for production:
 ```sh
 maizzle build production
 ```
+
+See the docs for [available commands](https://maizzle.com/docs/commands/).
 
 [npm]: https://www.npmjs.com/package/@maizzle/cli
 [npm-version-shield]: https://img.shields.io/npm/v/@maizzle/cli.svg?style=flat-square
