@@ -1,108 +1,44 @@
-const fs = require('fs-extra')
-const path = require('path')
 const cli = require('commander')
 const importCwd = require('import-cwd')
 const Project = require('./commands/new')
+const Config = require('./commands/make/config')
+const Layout = require('./commands/make/layout')
+const Template = require('./commands/make/template')
 
 module.exports = () => {
   cli
     .command('new [path] [repo]')
     .description('scaffold a new Maizzle project')
     .option('-d, --no-deps', `Don't install NPM dependencies`)
-    .action((path, repo, cmdObj) => Project.scaffold(path, repo, cmdObj))
+    .action((repo, dir, cmd) => Project.scaffold(repo, dir, cmd))
 
   cli
-    .command('make:layout <filename>')
+    .command('make:layout [filename]')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Layout')
-    .action((filename, cmdObj) => {
-      if (path.parse(filename).ext === '') {
-        throw(`Error: <filename> argument must have an extension, i.e. ${filename}.html`)
-      }
-
-      try {
-        const layout = fs.readFileSync(`${__dirname}/stubs/layout.njk`, 'utf-8')
-        const destination = cmdObj.directory ? path.resolve(`${cmdObj.directory}/${filename}`) : path.resolve(`${process.cwd()}/src/layouts/${filename}`)
-
-        if (fs.existsSync(destination)) {
-          throw(`Error: ${destination} already exists.`)
-        }
-
-        fs.outputFileSync(destination, layout)
-        console.log(`✔ Successfully created new Layout in ${destination}`)
-      } catch (error) {
-        throw error
-      }
-    })
+    .action((filename, cmd) => Layout.scaffold(filename, cmd))
 
   cli
-    .command('make:template <filename>')
+    .command('make:template [filename]')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Template')
-    .action((filename, cmdObj) => {
-      if (path.parse(filename).ext === '') {
-        throw(`Error: <filename> argument must have an extension, i.e. ${filename}.html`)
-      }
-
-      try {
-        const template = fs.readFileSync(`${__dirname}/stubs/template.njk`, 'utf-8')
-        const destination = cmdObj.directory ? path.resolve(`${cmdObj.directory}/${filename}`) : path.resolve(`${process.cwd()}/src/templates/${filename}`)
-
-        if (fs.existsSync(destination)) {
-          throw(`Error: ${destination} already exists.`)
-        }
-
-        fs.outputFileSync(destination, template)
-        console.log(`✔ Successfully created new Template in ${destination}`)
-      } catch (error) {
-        throw error
-      }
-    })
+    .action((filename, cmd) => Template.scaffold(filename, cmd))
 
   cli
-    .command('make:config <env>')
+    .command('make:config [env]')
     .option('-f, --full', 'scaffold a full config')
     .description('scaffold a new Config')
-    .action((env, cmdObj) => {
-      try {
-        const config = fs.readFileSync(`${__dirname}/stubs/config/${cmdObj.full ? 'full' : 'base'}.js`, 'utf-8')
-        const destination = path.resolve(`${process.cwd()}/config.${env}.js`)
-
-        if (fs.existsSync(destination)) {
-          throw(`Error: ${destination} already exists.`)
-        }
-
-        const configString = config.replace('build_local', `build_${env}`)
-        fs.outputFileSync(destination, configString)
-        console.log(`✔ Successfully created new Config in ${destination}`)
-      } catch (error) {
-        throw error
-      }
-    })
+    .action((env, cmd) => Config.scaffold(env, cmd))
 
   cli
     .command('build [env]')
     .description('compile email templates and output them to disk')
-    .action(env => {
-      try {
-        const Maizzle = importCwd('./bootstrap')
-        Maizzle.build(env)
-      } catch (err) {
-        throw err
-      }
-    })
+    .action(env => importCwd('./node_modules/@maizzle/framework/src').build(env))
 
   cli
     .command('serve')
     .description('start a local development server and watch for file changes')
-    .action(() => {
-      try {
-        const Maizzle = importCwd('./bootstrap')
-        Maizzle.serve()
-      } catch (err) {
-        throw err
-      }
-    })
+    .action(() => importCwd('./node_modules/@maizzle/framework/src').serve())
 
   cli
     .option('-v, --version', 'output current framework and CLI versions')
@@ -111,20 +47,16 @@ module.exports = () => {
       try {
         const maizzle = importCwd('./node_modules/@maizzle/framework/package.json')
         console.log(`Framework v${maizzle.version}\nCLI v${pkg.version}`)
-      } catch (error) {
+      } catch {
         console.log(`CLI v${pkg.version}\nTo see your Framework version, run this command in the root directory of a Maizzle project.`)
       }
+
       process.exit()
     })
-
-  cli.on('command:*', () => {
-    console.error('Invalid command: %s\nSee --help for a list of available commands.', cli.args.join(' '))
-    process.exit(1)
-  })
+    .on('command:*', () => {
+      console.error('Invalid command: %s\nSee --help for a list of available commands.', cli.args.join(' '))
+      process.exit(1)
+    })
 
   cli.parse(process.argv)
-
-  if (!process.argv.slice(2).length) {
-    cli.help()
-  }
 }

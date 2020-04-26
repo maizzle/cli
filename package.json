@@ -1,7 +1,7 @@
 {
   "name": "@maizzle/cli",
   "version": "0.5.0",
-  "description": "CLI tool for the Maizzle Email Framework",
+  "description": "CLI app for the Maizzle Email Framework",
   "license": "MIT",
   "bin": {
     "maizzle": "./bin/maizzle"
@@ -27,15 +27,30 @@
     "access": "public"
   },
   "scripts": {
+    "test": "nyc ava",
+    "pretest": "xo",
     "release": "np"
   },
   "dependencies": {
+    "chalk": "^4.0.0",
     "commander": "^5.0.0",
+    "execa": "^4.0.0",
     "fs-extra": "^9.0.0",
-    "git-clone": "^0.1.0",
     "import-cwd": "^3.0.0",
-    "is-git-url": "^1.0.0",
+    "inquirer": "^7.1.0",
     "np": "*",
     "ora": "^4.0.2"
+  },
+  "devDependencies": {
+    "ava": "^3.7.0",
+    "nyc": "^15.0.1",
+    "xo": "^0.29.1"
+  },
+  "nyc": {
+    "exclude": [
+      "_temp*/**",
+      "test/**",
+      "config.*.js"
+    ]
   }
 }

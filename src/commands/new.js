@@ -1,53 +1,88 @@
 const ora = require('ora')
 const path = require('path')
 const fs = require('fs-extra')
-const clone = require('git-clone')
-const isGitURL = require('is-git-url')
-const exec = require("child_process").exec
+const execa = require('execa')
+const chalk = require('chalk')
+const inquirer = require('inquirer')
+const {isGitURL} = require('../utils')
 
-module.exports.scaffold = (dir, repo, cmdObj) => {
-
-  if (isGitURL(dir)) {
-    repo = dir
-    dir = path.parse(repo).name
-  } else {
-    dir = dir || 'maizzle'
-    repo = repo || 'https://github.com/maizzle/maizzle.git'
+module.exports.scaffold = async (starter, dir, cmd) => {
+  if (cmd.args.length === 0) {
+    await inquirer
+      .prompt([
+        {
+          name: 'folder',
+          message: 'Project directory name',
+          default: 'maizzle'
+        },
+        {
+          name: 'starter',
+          type: 'confirm',
+          message: 'Do you want to use a custom Starter',
+          default: false
+        },
+        {
+          name: 'repo',
+          message: 'Starter Git repository URL',
+          when: answers => answers.starter
+        },
+        {
+          name: 'dependencies',
+          type: 'confirm',
+          message: 'Install NPM dependencies',
+          default: true
+        }
+      ])
+      .then(answers => {
+        dir = answers.folder
+        starter = answers.repo
+        cmd.deps = answers.dependencies
+      })
   }
 
-  if (!isGitURL(repo)) {
-    console.log(`Error: Invalid Git repository URL (${repo})`)
+  const starters = new Set(['amp4email', 'nunjucks'])
+  dir = dir || starter
+
+  if (/^([\w-]+)\//i.test(starter)) {
+    starter = `https://github.com/${starter}.git`
+  } else if (starters.has(starter)) {
+    starter = `https://github.com/maizzle/starter-${starter}.git`
+  } else {
+    starter = starter || 'https://github.com/maizzle/maizzle.git'
+    dir = dir || path.parse(starter).name
+  }
+
+  const dest = path.join(process.cwd(), dir)
+  let spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
+
+  if (!isGitURL(starter)) {
+    spinner.fail(`not a Git repository: ${starter}`)
     process.exit()
   }
 
-  let dest = path.join(process.cwd(), dir)
-  let spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
-
-  if (fs.existsSync(dest)) {
-    return spinner.fail(`Error: ${dest} directory already exists!`)
-  }
-
-  return clone(repo, dest, async () => {
-    try {
+  execa('git', ['clone', starter, dir, '--single-branch'])
+    .then(async () => {
+      spinner = spinner.stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Cloned Git repository'})
       process.chdir(dest)
-
       await fs.remove('.git')
       await fs.remove('.github')
 
-      if (cmdObj.deps) {
-        spinner.start('Project downloaded, installing NPM dependencies...')
+      if (cmd.deps) {
+        spinner.start('Installing NPM dependencies')
 
-        exec("npm install", (err, stdout, stderr) => {
-          if (err) {
-            return spinner.fail(err)
-          }
-          spinner.succeed('Maizzle project initialized, go create awesome emails!')
-        })
-      } else {
-        spinner.succeed('Maizzle project initialized (without NPM dependencies).')
+        return execa('npm', ['install'])
+          .then(() => {
+            return spinner
+              .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Installed NPM dependencies'})
+              .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Maizzle project initialized'})
+              .info(`Now \`cd ${dir}\` and start building your emails`)
+          })
+          .catch(error => spinner.fail(error.stderr))
       }
-    } catch (error) {
-      spinner.fail(error)
-    }
-  })
+
+      return spinner
+        .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Installed NPM dependencies'})
+        .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Maizzle project initialized'})
+        .info(`Remember to install the dependencies by running \`cd ${dir}\` and then \`npm install\``)
+    })
 }
