@@ -20,6 +20,18 @@ test('it scaffolds a new project', async t => {
   t.true(fs.existsSync(t.context.folder))
 })
 
+test('it scaffolds from GitHub using user/repo argument', async t => {
+  await execa(cli, ['new', 'maizzle/maizzle', t.context.folder, '-d'])
+
+  t.true(fs.existsSync(t.context.folder))
+})
+
+test('it scaffolds a default starter', async t => {
+  await execa(cli, ['new', 'nunjucks', t.context.folder, '-d'])
+
+  t.true(fs.existsSync(t.context.folder))
+})
+
 test('it fails if repo URL is invalid', async t => {
   const {stderr} = await execa(cli, ['new', 'notagitrepo'])
 

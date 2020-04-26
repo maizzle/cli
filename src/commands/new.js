@@ -6,7 +6,7 @@ const chalk = require('chalk')
 const inquirer = require('inquirer')
 const {isGitURL} = require('../utils')
 
-module.exports.scaffold = async (repo, dir, cmd) => {
+module.exports.scaffold = async (starter, dir, cmd) => {
   if (cmd.args.length === 0) {
     await inquirer
       .prompt([
@@ -34,24 +34,33 @@ module.exports.scaffold = async (repo, dir, cmd) => {
         }
       ])
       .then(answers => {
-        repo = answers.repo
         dir = answers.folder
+        starter = answers.repo
         cmd.deps = answers.dependencies
       })
   }
 
-  repo = repo || 'https://github.com/maizzle/maizzle.git'
-  dir = dir || path.parse(repo).name
+  const starters = new Set(['amp4email', 'nunjucks'])
+  dir = dir || starter
+
+  if (/^([\w-]+)\//i.test(starter)) {
+    starter = `https://github.com/${starter}.git`
+  } else if (starters.has(starter)) {
+    starter = `https://github.com/maizzle/starter-${starter}.git`
+  } else {
+    starter = starter || 'https://github.com/maizzle/maizzle.git'
+    dir = dir || path.parse(starter).name
+  }
 
   const dest = path.join(process.cwd(), dir)
   let spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
 
-  if (!isGitURL(repo)) {
-    spinner.fail(`not a Git repository: ${repo}`)
+  if (!isGitURL(starter)) {
+    spinner.fail(`not a Git repository: ${starter}`)
     process.exit()
   }
 
-  execa('git', ['clone', repo, dir])
+  execa('git', ['clone', starter, dir, '--single-branch'])
     .then(async () => {
       spinner = spinner.stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Cloned Git repository'})
       process.chdir(dest)
@@ -68,7 +77,7 @@ module.exports.scaffold = async (repo, dir, cmd) => {
               .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Maizzle project initialized'})
               .info(`Now \`cd ${dir}\` and start building your emails`)
           })
-          .catch(({stderr}) => spinner.fail(stderr))
+          .catch(error => spinner.fail(error.stderr))
       }
 
       return spinner
@@ -76,5 +85,4 @@ module.exports.scaffold = async (repo, dir, cmd) => {
         .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Maizzle project initialized'})
         .info(`Remember to install the dependencies by running \`cd ${dir}\` and then \`npm install\``)
     })
-    .catch(({stderr}) => spinner.fail(stderr))
 }
