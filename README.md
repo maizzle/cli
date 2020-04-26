@@ -21,7 +21,7 @@ Create a new project using the interactive prompt:
 maizzle new
 ```
 
-<img src="https://github.com/maizzle/cli/blob/1.0/preview.gif?raw=true" width="387">
+<img src="https://github.com/maizzle/cli/blob/master/preview.gif?raw=true" width="387">
 
 Change current directory:
 
