@@ -1,6 +1,7 @@
 const test = require('ava')
 const fs = require('fs-extra')
 const execa = require('execa')
+const cli = require.resolve('../bin/maizzle')
 
 test.beforeEach(t => {
   t.context.file = ''
@@ -14,7 +15,7 @@ test.afterEach.always(async t => {
 })
 
 test('it scaffolds a basic config', async t => {
-  await execa.command('node bin/maizzle make:config basic')
+  await execa(cli, ['make:config', 'basic'])
 
   t.context.file = 'config.basic.js'
   const config = require(`../${t.context.file}`)
@@ -24,7 +25,7 @@ test('it scaffolds a basic config', async t => {
 })
 
 test('it scaffolds a full config', async t => {
-  await execa.command('node bin/maizzle make:config full -f')
+  await execa(cli, ['make:config', 'full', '-f'])
 
   t.context.file = 'config.full.js'
   const config = require(`../${t.context.file}`)
@@ -34,8 +35,8 @@ test('it scaffolds a full config', async t => {
 })
 
 test('it does not overwrite existing files', async t => {
-  await execa.command('node bin/maizzle make:config production')
-  await execa.command('node bin/maizzle make:config production -f')
+  await execa(cli, ['make:config', 'production'])
+  await execa(cli, ['make:config', 'production', '-f'])
 
   t.context.file = 'config.production.js'
   const config = require(`../${t.context.file}`)
