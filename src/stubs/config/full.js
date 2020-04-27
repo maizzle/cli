@@ -61,6 +61,7 @@ module.exports = {
     preferBgColorAttribute: {
       enabled: false,
     },
+    mergeLonghand: false,
     excludedProperties: null,
   },
   purgeCSS: {
