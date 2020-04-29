@@ -41,7 +41,6 @@ module.exports.scaffold = async (starter, dir, cmd) => {
   }
 
   const starters = new Set(['amp4email', 'nunjucks'])
-  dir = dir || starter
 
   if (/^([\w-]+)\//i.test(starter)) {
     starter = `https://github.com/${starter}.git`
@@ -49,10 +48,12 @@ module.exports.scaffold = async (starter, dir, cmd) => {
     starter = `https://github.com/maizzle/starter-${starter}.git`
   } else {
     starter = starter || 'https://github.com/maizzle/maizzle.git'
-    dir = dir || path.parse(starter).name
   }
 
+  dir = dir || path.parse(starter).name
+
   const dest = path.join(process.cwd(), dir)
+
   let spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
 
   if (!isGitURL(starter)) {
