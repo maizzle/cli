@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "chalk": "^4.0.0",
-    "commander": "^5.1.0",
+    "commander": "^6.0.0",
     "execa": "^4.0.0",
     "fs-extra": "^9.0.0",
     "import-cwd": "^3.0.0",
