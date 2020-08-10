@@ -39,7 +39,7 @@
     "import-cwd": "^3.0.0",
     "inquirer": "^7.1.0",
     "np": "*",
-    "ora": "^4.0.4"
+    "ora": "^5.0.0"
   },
   "devDependencies": {
     "ava": "^3.8.0",
