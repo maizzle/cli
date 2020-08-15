@@ -2,7 +2,7 @@
 
 [![Version][npm-version-shield]][npm]
 [![Build][github-ci-shield]][github-ci]
-[![Downloads][npm-stats-shield]][npm]
+[![Downloads][npm-stats-shield]][npm-stats]
 [![License][license-shield]][license]
 
 Full documentation is available at https://maizzle.com
@@ -44,6 +44,7 @@ maizzle build production
 See the docs for [available commands](https://maizzle.com/docs/commands/).
 
 [npm]: https://www.npmjs.com/package/@maizzle/cli
+[npm-stats]: https://npm-stat.com/charts.html?package=%40maizzle%2Fcli&from=2019-03-27
 [npm-version-shield]: https://img.shields.io/npm/v/@maizzle/cli.svg?style=flat-square
 [npm-stats-shield]: https://img.shields.io/npm/dt/@maizzle/cli.svg?style=flat-square&color=6875f5
 [github-ci]: https://github.com/maizzle/cli/actions
