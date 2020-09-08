@@ -33,10 +33,7 @@ module.exports = () => {
   program
     .command('build [env]')
     .description('compile email templates and output them to disk')
-    .action(env => {
-      process.env.NODE_ENV = env || 'local'
-      importCwd('./node_modules/@maizzle/framework/src').build(env)
-    })
+    .action(env => importCwd('./node_modules/@maizzle/framework/src').build(env))
 
   program
     .command('serve')
