@@ -1,14 +1,12 @@
 module.exports = {
   build: {
-    destination: {
-      path: 'build_local',
-      extension: 'html',
-    },
-    assets: {
-      source: 'src/assets/images',
-      destination: 'images',
-    },
     browsersync: {
+      directory: true,
+      notify: false,
+      open: false,
+      port: 3000,
+      tunnel: false,
+      ui: {port: 3001},
       watch: [
         'src/**/*.*',
         'tailwind.config.js',
@@ -21,8 +19,16 @@ module.exports = {
       root: './',
     },
     templates: {
-      root: 'src/templates',
-      extensions: 'html',
+      filetypes: 'html',
+      source: 'src/templates',
+      destination: {
+        path: 'build_local',
+        extension: 'html',
+      },
+      assets: {
+        source: 'src/assets/images',
+        destination: 'images',
+      },
     },
     tailwind: {
       css: 'src/assets/css/main.css',
@@ -147,4 +153,17 @@ module.exports = {
     markdownit: {},
     plugins: [],
   },
+  // events: {
+  //   beforeCreate(config) {},
+  //   beforeRender(html, config) {
+  //     return html
+  //   },
+  //   afterRender(html, config) {
+  //     return html
+  //   },
+  //   afterTransformers(html, config) {
+  //     return html
+  //   },
+  //   afterBuild(files) {},
+  // }
 }

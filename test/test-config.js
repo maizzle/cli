@@ -20,7 +20,7 @@ test('it scaffolds a basic config', async t => {
   const config = require(`../${t.context.file}`)
 
   t.true(fs.existsSync(t.context.file))
-  t.is(config.build.destination.path, 'build_basic')
+  t.is(config.build.templates.destination.path, 'build_basic')
 })
 
 test('it scaffolds a full config', async t => {
@@ -30,7 +30,7 @@ test('it scaffolds a full config', async t => {
   const config = require(`../${t.context.file}`)
 
   t.true(fs.existsSync(t.context.file))
-  t.is(config.build.destination.path, 'build_full')
+  t.is(config.build.templates.destination.path, 'build_full')
 })
 
 test('it does not overwrite existing files', async t => {

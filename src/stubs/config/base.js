@@ -1,7 +1,9 @@
 module.exports = {
   build: {
-    destination: {
-      path: 'build_local'
+    templates: {
+      destination: {
+        path: 'build_local'
+      }
     }
   }
 }
