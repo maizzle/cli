@@ -51,15 +51,10 @@ module.exports = {
   inlineCSS: {
     enabled: false,
     styleToAttribute: {
-      'background-color': 'bgcolor',
-      'background-image': 'background',
-      'text-align': 'align',
       'vertical-align': 'valign',
     },
-    applySizeAttribute: {
-      width: [],
-      height: [],
-    },
+    applyWidthAttributes: [],
+    applyHeightAttributes: [],
     keepOnlyAttributeSizes: {
       width: [],
       height: [],
@@ -78,7 +73,6 @@ module.exports = {
     ],
     whitelist: [],
     whitelistPatterns: [],
-    extractor: /[\w-/:%]+(?<!:)/g,
   },
   removeUnusedCSS: {
     enabled: false,
