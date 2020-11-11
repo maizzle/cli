@@ -1,7 +1,7 @@
 {
   "name": "@maizzle/cli",
   "version": "1.0.4",
-  "description": "CLI app for the Maizzle Email Framework",
+  "description": "CLI tool for the Maizzle Email Framework",
   "license": "MIT",
   "bin": {
     "maizzle": "./bin/maizzle"
@@ -15,13 +15,16 @@
   "author": "Cosmin Popovici (https://github.com/cossssmin)",
   "keywords": [
     "maizzle",
-    "email",
     "tailwindcss",
-    "email-framework",
     "responsive-email",
+    "email-framework",
     "email-template",
+    "email-marketing",
+    "email-campaigns",
+    "email-newsletter",
     "email-boilerplate",
-    "email-campaigns"
+    "html-emails",
+    "email-cli"
   ],
   "publishConfig": {
     "access": "public"
