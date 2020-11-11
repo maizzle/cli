@@ -3,6 +3,7 @@ const importCwd = require('import-cwd')
 const Project = require('./commands/new')
 const Config = require('./commands/make/config')
 const Layout = require('./commands/make/layout')
+const updateNotifier = require('update-notifier')
 const Template = require('./commands/make/template')
 
 module.exports = () => {
@@ -33,7 +34,14 @@ module.exports = () => {
   program
     .command('build [env]')
     .description('compile email templates and output them to disk')
-    .action(env => importCwd('./node_modules/@maizzle/framework/src').build(env))
+    .action(async env => {
+      await importCwd('./node_modules/@maizzle/framework/src').build(env)
+
+      updateNotifier({
+        pkg: importCwd('./node_modules/@maizzle/framework/package.json'),
+        shouldNotifyInNpmScript: true
+      }).notify()
+    })
 
   program
     .command('serve')
