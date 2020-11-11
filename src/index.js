@@ -68,4 +68,9 @@ module.exports = () => {
     })
 
   program.parse(process.argv)
+
+  updateNotifier({
+    pkg: require('../package.json'),
+    shouldNotifyInNpmScript: true
+  }).notify()
 }
