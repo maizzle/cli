@@ -1,7 +1,7 @@
 {
   "name": "@maizzle/cli",
   "version": "1.0.4",
-  "description": "CLI app for the Maizzle Email Framework",
+  "description": "CLI tool for the Maizzle Email Framework",
   "license": "MIT",
   "bin": {
     "maizzle": "./bin/maizzle"
@@ -15,13 +15,16 @@
   "author": "Cosmin Popovici (https://github.com/cossssmin)",
   "keywords": [
     "maizzle",
-    "email",
     "tailwindcss",
-    "email-framework",
     "responsive-email",
+    "email-framework",
     "email-template",
+    "email-marketing",
+    "email-campaigns",
+    "email-newsletter",
     "email-boilerplate",
-    "email-campaigns"
+    "html-emails",
+    "email-cli"
   ],
   "publishConfig": {
     "access": "public"
@@ -32,19 +35,20 @@
     "release": "np"
   },
   "dependencies": {
-    "chalk": "^4.0.0",
-    "commander": "^6.0.0",
-    "execa": "^4.0.0",
+    "chalk": "^4.1.0",
+    "commander": "^6.2.0",
+    "execa": "^4.1.0",
     "fs-extra": "^9.0.0",
     "import-cwd": "^3.0.0",
-    "inquirer": "^7.1.0",
+    "inquirer": "^7.3.3",
     "np": "*",
-    "ora": "^5.0.0"
+    "ora": "^5.1.0",
+    "update-notifier": "^5.0.1"
   },
   "devDependencies": {
-    "ava": "^3.8.0",
-    "nyc": "^15.0.1",
-    "xo": "^0.34.1"
+    "ava": "^3.13.0",
+    "nyc": "^15.1.0",
+    "xo": "^0.34.2"
   },
   "nyc": {
     "exclude": [
