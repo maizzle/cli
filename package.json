@@ -35,20 +35,20 @@
     "release": "np"
   },
   "dependencies": {
-    "chalk": "^4.0.0",
-    "commander": "^6.0.0",
-    "execa": "^4.0.0",
+    "chalk": "^4.1.0",
+    "commander": "^6.2.0",
+    "execa": "^4.1.0",
     "fs-extra": "^9.0.0",
     "import-cwd": "^3.0.0",
-    "inquirer": "^7.1.0",
+    "inquirer": "^7.3.3",
     "np": "*",
-    "ora": "^5.0.0",
+    "ora": "^5.1.0",
     "update-notifier": "^5.0.1"
   },
   "devDependencies": {
-    "ava": "^3.8.0",
-    "nyc": "^15.0.1",
-    "xo": "^0.34.1"
+    "ava": "^3.13.0",
+    "nyc": "^15.1.0",
+    "xo": "^0.34.2"
   },
   "nyc": {
     "exclude": [
