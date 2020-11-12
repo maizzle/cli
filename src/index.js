@@ -35,31 +35,38 @@ module.exports = () => {
 
   program
     .command('build [env]')
+    .option('-b, --bin [bin]', 'path to the maizzle executable')
     .description('compile email templates and output them to disk')
-    .action(async env => {
-      try {
-        await importCwd('./node_modules/@maizzle/framework/src').build(env)
+    .action(async (env, cmd) => {
+      const bin = cmd.bin || './node_modules/@maizzle/framework/src'
 
-        updateNotifier({
-          pkg: importCwd('./node_modules/@maizzle/framework/package.json'),
-          shouldNotifyInNpmScript: true
-        }).notify()
+      try {
+        await importCwd(bin).build(env)
       } catch (error) {
-        if (error.code == 'MODULE_NOT_FOUND') {
+        if (error.code === 'MODULE_NOT_FOUND') {
           console.error(err)
         }
       }
 
+      try {
+        updateNotifier({
+          pkg: importCwd('./node_modules/@maizzle/framework/package.json'),
+          shouldNotifyInNpmScript: true
+        }).notify()
+      } catch {}
     })
 
   program
     .command('serve')
+    .option('-b, --bin [bin]', 'path to the maizzle executable')
     .description('start a local development server and watch for file changes')
-    .action(() => {
+    .action(cmd => {
+      const bin = cmd.bin || './node_modules/@maizzle/framework/src'
+
       try {
-        importCwd('./node_modules/@maizzle/framework/src').serve()
+        importCwd(bin).serve()
       } catch (error) {
-        if (error.code == 'MODULE_NOT_FOUND') {
+        if (error.code === 'MODULE_NOT_FOUND') {
           console.error(err)
         }
       }
