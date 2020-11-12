@@ -6,6 +6,8 @@ const Layout = require('./commands/make/layout')
 const updateNotifier = require('update-notifier')
 const Template = require('./commands/make/template')
 
+const err = 'Error: Framework not found\n\nMake sure to run this command in your Maizzle project root, with dependencies installed.'
+
 module.exports = () => {
   program
     .command('new [path] [repo]')
@@ -35,18 +37,33 @@ module.exports = () => {
     .command('build [env]')
     .description('compile email templates and output them to disk')
     .action(async env => {
-      await importCwd('./node_modules/@maizzle/framework/src').build(env)
+      try {
+        await importCwd('./node_modules/@maizzle/framework/src').build(env)
 
-      updateNotifier({
-        pkg: importCwd('./node_modules/@maizzle/framework/package.json'),
-        shouldNotifyInNpmScript: true
-      }).notify()
+        updateNotifier({
+          pkg: importCwd('./node_modules/@maizzle/framework/package.json'),
+          shouldNotifyInNpmScript: true
+        }).notify()
+      } catch (error) {
+        if (error.code == 'MODULE_NOT_FOUND') {
+          console.error(err)
+        }
+      }
+
     })
 
   program
     .command('serve')
     .description('start a local development server and watch for file changes')
-    .action(() => importCwd('./node_modules/@maizzle/framework/src').serve())
+    .action(() => {
+      try {
+        importCwd('./node_modules/@maizzle/framework/src').serve()
+      } catch (error) {
+        if (error.code == 'MODULE_NOT_FOUND') {
+          console.error(err)
+        }
+      }
+    })
 
   program
     .storeOptionsAsProperties(false)
