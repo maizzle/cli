@@ -49,7 +49,6 @@ module.exports = {
   baseImageURL: '',
   googleFonts: '',
   inlineCSS: {
-    enabled: false,
     styleToAttribute: {
       'vertical-align': 'valign',
     },
@@ -59,9 +58,7 @@ module.exports = {
       width: [],
       height: [],
     },
-    preferBgColorAttribute: {
-      enabled: false,
-    },
+    preferBgColorAttribute: false,
     mergeLonghand: false,
     excludedProperties: null,
   },
@@ -75,7 +72,6 @@ module.exports = {
     whitelistPatterns: [],
   },
   removeUnusedCSS: {
-    enabled: false,
     whitelist: [],
     backend: [
       { heads: '{{', tails: '}}' },
@@ -108,7 +104,6 @@ module.exports = {
     }
   },
   prettify: {
-    enabled: false,
     unformatted: ['code', 'pre', 'em', 'strong', 'span'],
     indent_inner_html: true,
     indent_char: ' ',
@@ -117,7 +112,6 @@ module.exports = {
     ocd: true,
   },
   minify: {
-    enabled: false,
     lineLengthLimit: 500,
     removeIndentations: true,
     removeLineBreaks: false,
