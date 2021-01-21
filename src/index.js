@@ -6,7 +6,7 @@ const Layout = require('./commands/make/layout')
 const updateNotifier = require('update-notifier')
 const Template = require('./commands/make/template')
 
-const err = 'Error: Framework not found\n\nMake sure to run this command in your Maizzle project root, with dependencies installed.'
+const notFoundError = 'Error: Framework not found\n\nMake sure to run this command in your Maizzle project root, with dependencies installed.'
 
 module.exports = () => {
   program
@@ -44,7 +44,7 @@ module.exports = () => {
         await importCwd(bin).build(env)
       } catch (error) {
         if (error.code === 'MODULE_NOT_FOUND') {
-          console.error(err)
+          console.error(notFoundError)
         }
       }
 
@@ -67,7 +67,7 @@ module.exports = () => {
         importCwd(bin).serve()
       } catch (error) {
         if (error.code === 'MODULE_NOT_FOUND') {
-          console.error(err)
+          console.error(notFoundError)
         }
       }
     })
