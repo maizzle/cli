@@ -4,6 +4,7 @@ const Project = require('./commands/new')
 const Config = require('./commands/make/config')
 const Layout = require('./commands/make/layout')
 const updateNotifier = require('update-notifier')
+const Tailwind = require('./commands/make/tailwind')
 const Template = require('./commands/make/template')
 
 const notFoundError = 'Error: Framework not found\n\nMake sure to run this command in your Maizzle project root, with dependencies installed.'
@@ -32,6 +33,12 @@ module.exports = () => {
     .option('-f, --full', 'scaffold a full config')
     .description('scaffold a new Config')
     .action((env, cmd) => Config.scaffold(env, cmd))
+
+  program
+    .command('make:tailwind [filename]')
+    .option('-d, --directory <dir>', 'directory where the file should be output')
+    .description('scaffold a new Tailwind CSS config')
+    .action((filename, cmd) => Tailwind.scaffold(filename, cmd))
 
   program
     .command('build [env]')
