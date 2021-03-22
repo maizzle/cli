@@ -1,10 +1,11 @@
 const ora = require('ora')
 const path = require('path')
 const fs = require('fs-extra')
+const chalk = require('chalk')
 const inquirer = require('inquirer')
 
-module.exports.scaffold = async (filename, cmd = {}) => {
-  if (cmd.args.length === 0) {
+module.exports.scaffold = async (filename, options, command) => {
+  if (command.args.length === 0) {
     await inquirer
       .prompt([
         {
@@ -20,21 +21,21 @@ module.exports.scaffold = async (filename, cmd = {}) => {
       ])
       .then(answers => {
         filename = answers.filename
-        cmd.directory = answers.directory
+        options.directory = answers.directory
       })
   }
 
   filename = filename || 'template.html'
-  cmd.directory = cmd.directory || 'src/templates'
+  options.directory = options.directory || 'src/templates'
 
   const spinner = ora()
 
   if (['', '.'].includes(path.parse(filename).ext)) {
-    return spinner.fail(`File name must include an extension, i.e. ${filename}.html`)
+    return spinner.fail(`File name must include an extension, i.e. ${filename}${chalk.italic('.html')}`)
   }
 
   const html = fs.readFileSync(path.resolve(__dirname, '../../stubs/template.html'), 'utf8')
-  const destination = path.resolve(`${cmd.directory}/${filename}`)
+  const destination = path.resolve(`${options.directory}/${filename}`)
 
   if (fs.existsSync(destination)) {
     return spinner.fail(`File exists: ${destination}`)

@@ -6,12 +6,12 @@ const chalk = require('chalk')
 const inquirer = require('inquirer')
 const {isGitURL} = require('../utils')
 
-module.exports.scaffold = async (starter, dir, cmd) => {
-  if (cmd.args.length === 0) {
+module.exports.scaffold = async (starter, directory, options, command) => {
+  if (command.args.length === 0) {
     await inquirer
       .prompt([
         {
-          name: 'folder',
+          name: 'directory',
           message: 'Project directory name',
           default: 'maizzle'
         },
@@ -22,7 +22,7 @@ module.exports.scaffold = async (starter, dir, cmd) => {
           default: false
         },
         {
-          name: 'repo',
+          name: 'repository',
           message: 'Starter Git repository URL',
           when: answers => answers.starter
         },
@@ -34,9 +34,9 @@ module.exports.scaffold = async (starter, dir, cmd) => {
         }
       ])
       .then(answers => {
-        dir = answers.folder
-        starter = answers.repo
-        cmd.deps = answers.dependencies
+        directory = answers.directory
+        starter = answers.repository
+        options.deps = answers.dependencies
       })
   }
 
@@ -50,9 +50,9 @@ module.exports.scaffold = async (starter, dir, cmd) => {
     starter = starter || 'https://github.com/maizzle/maizzle.git'
   }
 
-  dir = dir || path.parse(starter).name
+  directory = directory || path.parse(starter).name
 
-  const dest = path.join(process.cwd(), dir)
+  const dest = path.join(process.cwd(), directory)
 
   let spinner = ora(`Crafting new Maizzle project in ${dest}...`).start()
 
@@ -61,14 +61,14 @@ module.exports.scaffold = async (starter, dir, cmd) => {
     process.exit()
   }
 
-  execa('git', ['clone', starter, dir, '--single-branch'])
+  execa('git', ['clone', starter, directory, '--single-branch'])
     .then(async () => {
       spinner = spinner.stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Cloned Git repository'})
       process.chdir(dest)
       await fs.remove('.git')
       await fs.remove('.github')
 
-      if (cmd.deps) {
+      if (options.deps) {
         spinner.start('Installing NPM dependencies')
 
         return execa('npm', ['install'])
@@ -76,7 +76,7 @@ module.exports.scaffold = async (starter, dir, cmd) => {
             return spinner
               .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Installed NPM dependencies'})
               .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Maizzle project initialized'})
-              .info(`Now \`cd ${dir}\` and start building your emails`)
+              .info(`Now \`cd ${directory}\` and start building your emails`)
           })
           .catch(error => spinner.fail(error.stderr))
       }
@@ -84,6 +84,6 @@ module.exports.scaffold = async (starter, dir, cmd) => {
       return spinner
         .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Installed NPM dependencies'})
         .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Maizzle project initialized'})
-        .info(`Remember to install the dependencies by running \`cd ${dir}\` and then \`npm install\``)
+        .info(`Remember to install the dependencies by running \`cd ${directory}\` and then \`npm install\``)
     })
 }
