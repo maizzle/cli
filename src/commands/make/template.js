@@ -1,6 +1,7 @@
 const ora = require('ora')
 const path = require('path')
 const fs = require('fs-extra')
+const chalk = require('chalk')
 const inquirer = require('inquirer')
 
 module.exports.scaffold = async (filename, options, command) => {
@@ -30,7 +31,7 @@ module.exports.scaffold = async (filename, options, command) => {
   const spinner = ora()
 
   if (['', '.'].includes(path.parse(filename).ext)) {
-    return spinner.fail(`File name must include an extension, i.e. ${filename}.html`)
+    return spinner.fail(`File name must include an extension, i.e. ${filename}${chalk.italic('.html')}`)
   }
 
   const html = fs.readFileSync(path.resolve(__dirname, '../../stubs/template.html'), 'utf8')

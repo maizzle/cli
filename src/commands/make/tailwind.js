@@ -31,7 +31,7 @@ module.exports.scaffold = async (filename, options, command) => {
   const spinner = ora()
 
   if (path.parse(filename).ext !== '.js') {
-    return spinner.fail(`File must have a .js extension, i.e. ${filename}${chalk.bold('.js')}`)
+    return spinner.fail(`File must have a .js extension, i.e. ${filename}${chalk.italic('.js')}`)
   }
 
   const html = fs.readFileSync(path.resolve(__dirname, '../../stubs/config/tailwind.config.js'), 'utf8')
