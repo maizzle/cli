@@ -71,7 +71,7 @@ module.exports = () => {
       const bin = options.bin || './node_modules/@maizzle/framework/src'
 
       try {
-        importCwd(bin).serve()
+        importCwd(bin).serve(env)
       } catch (error) {
         if (error.code === 'MODULE_NOT_FOUND') {
           console.error(notFoundError)
