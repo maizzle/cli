@@ -3,8 +3,8 @@ const path = require('path')
 const fs = require('fs-extra')
 const inquirer = require('inquirer')
 
-module.exports.scaffold = async (env, cmd = {}) => {
-  if (cmd.args.length === 0) {
+module.exports.scaffold = async (env, options, command) => {
+  if (command.args.length === 0) {
     await inquirer
       .prompt([
         {
@@ -21,16 +21,16 @@ module.exports.scaffold = async (env, cmd = {}) => {
       ])
       .then(answers => {
         env = answers.environment
-        cmd.full = answers.full
+        options.full = answers.full
       })
   }
 
   env = env || 'production'
-  cmd.full = cmd.full || false
+  options.full = options.full || false
 
   const spinner = ora()
   const destination = path.resolve(`${process.cwd()}/config.${env}.js`)
-  const config = fs.readFileSync(path.resolve(__dirname, `../../stubs/config/${cmd.full ? 'full' : 'base'}.js`), 'utf8')
+  const config = fs.readFileSync(path.resolve(__dirname, `../../stubs/config/${options.full ? 'full' : 'base'}.js`), 'utf8')
 
   if (fs.existsSync(destination)) {
     return spinner.fail(`File exists: ${destination}`)

@@ -11,41 +11,41 @@ const notFoundError = 'Error: Framework not found\n\nMake sure to run this comma
 
 module.exports = () => {
   program
-    .command('new [path] [repo]')
+    .command('new [repository] [path]')
     .description('scaffold a new Maizzle project')
     .option('-d, --no-deps', `Don't install NPM dependencies`)
-    .action((repo, dir, cmd) => Project.scaffold(repo, dir, cmd))
+    .action((repository, path, options, command) => Project.scaffold(repository, path, options, command))
 
   program
     .command('make:layout [filename]')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Layout')
-    .action((filename, cmd) => Layout.scaffold(filename, cmd))
+    .action((filename, options, command) => Layout.scaffold(filename, options, command))
 
   program
     .command('make:template [filename]')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Template')
-    .action((filename, cmd) => Template.scaffold(filename, cmd))
+    .action((filename, options, command) => Template.scaffold(filename, options, command))
 
   program
     .command('make:config [env]')
     .option('-f, --full', 'scaffold a full config')
     .description('scaffold a new Config')
-    .action((env, cmd) => Config.scaffold(env, cmd))
+    .action((env, options, command) => Config.scaffold(env, options, command))
 
   program
     .command('make:tailwind [filename]')
     .option('-d, --directory <dir>', 'directory where the file should be output')
     .description('scaffold a new Tailwind CSS config')
-    .action((filename, cmd) => Tailwind.scaffold(filename, cmd))
+    .action((filename, options, command) => Tailwind.scaffold(filename, options, command))
 
   program
     .command('build [env]')
     .option('-b, --bin [bin]', 'path to the maizzle executable')
     .description('compile email templates and output them to disk')
-    .action(async (env, cmd) => {
-      const bin = cmd.bin || './node_modules/@maizzle/framework/src'
+    .action(async (env, options) => {
+      const bin = options.bin || './node_modules/@maizzle/framework/src'
 
       try {
         await importCwd(bin).build(env)
@@ -64,11 +64,11 @@ module.exports = () => {
     })
 
   program
-    .command('serve')
+    .command('serve [env]')
     .option('-b, --bin [bin]', 'path to the maizzle executable')
     .description('start a local development server and watch for file changes')
-    .action(cmd => {
-      const bin = cmd.bin || './node_modules/@maizzle/framework/src'
+    .action((env, options) => {
+      const bin = options.bin || './node_modules/@maizzle/framework/src'
 
       try {
         importCwd(bin).serve()
