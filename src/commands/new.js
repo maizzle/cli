@@ -18,7 +18,7 @@ module.exports.scaffold = async (starter, directory, options, command) => {
         {
           name: 'starter',
           type: 'confirm',
-          message: 'Do you want to use a custom Starter',
+          message: 'Do you want to use a Starter',
           default: false
         },
         {
