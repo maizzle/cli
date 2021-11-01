@@ -11,5 +11,5 @@ test('displays CLI version', async t => {
 test('shows help on invalid command', async t => {
   const {stderr} = await t.throwsAsync(execa.command('node bin/maizzle foo'))
 
-  t.is(stderr, 'Invalid command: foo\nSee --help for a list of available commands.')
+  t.is(stderr.startsWith(`error: unknown command 'foo'`), true)
 })
