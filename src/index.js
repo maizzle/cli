@@ -81,6 +81,8 @@ module.exports = () => {
 
   program
     .storeOptionsAsProperties(false)
+    .showSuggestionAfterError()
+    .showHelpAfterError()
     .option('-v, --version', 'output current framework and CLI versions')
     .on('option:version', () => {
       const pkg = require('../package.json')
@@ -92,10 +94,6 @@ module.exports = () => {
       }
 
       process.exit()
-    })
-    .on('command:*', () => {
-      console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' '))
-      process.exit(1)
     })
 
   program.parse(process.argv)
