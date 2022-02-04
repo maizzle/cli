@@ -1,11 +1,11 @@
 const {program} = require('commander')
 const importCwd = require('import-cwd')
-const Project = require('./commands/new')
-const Config = require('./commands/make/config')
-const Layout = require('./commands/make/layout')
+const Project = require('./commands/new.js')
+const Config = require('./commands/make/config.js')
+const Layout = require('./commands/make/layout.js')
+const Tailwind = require('./commands/make/tailwind.js')
+const Template = require('./commands/make/template.js')
 const updateNotifier = require('update-notifier')
-const Tailwind = require('./commands/make/tailwind')
-const Template = require('./commands/make/template')
 
 const notFoundError = 'Error: Framework not found\n\nMake sure to run this command in your Maizzle project root, with dependencies installed.'
 

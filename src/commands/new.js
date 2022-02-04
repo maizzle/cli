@@ -4,7 +4,7 @@ const fs = require('fs-extra')
 const execa = require('execa')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
-const {isGitURL} = require('../utils')
+const {isGitURL} = require('../utils.js')
 
 module.exports.scaffold = async (starter, directory, options, command) => {
   if (command.args.length === 0) {
