@@ -75,7 +75,7 @@ module.exports = () => {
         importCwd(bin).serve(env, {
           build: {
             console: {
-              clear: options.noclear
+              clear: !options.noclear
             }
           }
         })
