@@ -66,12 +66,19 @@ module.exports = () => {
   program
     .command('serve [env]')
     .option('-b, --bin [bin]', 'path to the maizzle executable')
+    .option('-nc, --noclear [noclear]', 'do not clear the console log')
     .description('start a local development server and watch for file changes')
     .action((env, options) => {
       const bin = options.bin || './node_modules/@maizzle/framework/src'
 
       try {
-        importCwd(bin).serve(env)
+        importCwd(bin).serve(env, {
+          build: {
+            console: {
+              clear: options.noclear
+            }
+          }
+        })
       } catch (error) {
         if (error.code === 'MODULE_NOT_FOUND') {
           console.error(notFoundError)
