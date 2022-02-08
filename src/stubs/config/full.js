@@ -31,7 +31,7 @@ module.exports = {
       },
     },
     tailwind: {
-      css: 'src/css/main.css',
+      css: 'src/css/tailwind.css',
       config: 'tailwind.config.js',
     },
     posthtml: {
@@ -46,7 +46,7 @@ module.exports = {
     },
     fail: 'silent',
   },
-  baseImageURL: '',
+  baseURL: '',
   inlineCSS: {
     styleToAttribute: {
       'vertical-align': 'valign',

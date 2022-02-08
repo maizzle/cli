@@ -115,11 +115,16 @@ module.exports = {
     },
   },
   corePlugins: {
+    preflight: false,
     animation: false,
     backgroundOpacity: false,
     borderOpacity: false,
     divideOpacity: false,
     placeholderOpacity: false,
+    ringColor: false,
+    ringWidth: false,
+    ringOpacity: false,
+    ringOffsetColor: false,
     textOpacity: false,
   },
 }
