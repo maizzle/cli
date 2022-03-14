@@ -35,7 +35,7 @@
     "release": "np"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
+    "chalk": "^5.0.1",
     "commander": "^8.0.0",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
