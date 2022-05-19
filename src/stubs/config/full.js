@@ -84,7 +84,7 @@ module.exports = {
       alt: ''
     }
   },
-  transformContents: {},
+  filters: {},
   urlParameters: {
     _options: {
       qs: {
