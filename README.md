@@ -9,7 +9,7 @@ Full documentation is available at https://maizzle.com
 
 ## Installation
 
-```sh
+```bash
 npm install -g @maizzle/cli
 ```
 
@@ -17,31 +17,23 @@ npm install -g @maizzle/cli
 
 Create a new project using the interactive prompt:
 
-```sh
+```bash
 maizzle new
 ```
 
-<img src="https://github.com/maizzle/cli/blob/master/preview.gif?raw=true" width="387">
+Start a local development server by running the `serve` command in the project directory:
 
-Change current directory:
-
-```sh
-cd maizzle
-```
-
-Start a local server by running the `serve` command:
-
-```sh
+```bash
 maizzle serve
 ```
 
 Build for production:
 
-```sh
+```bash
 maizzle build production
 ```
 
-See the docs for [available commands](https://maizzle.com/docs/commands/).
+See the docs for all [available commands](https://maizzle.com/docs/cli/).
 
 [npm]: https://www.npmjs.com/package/@maizzle/cli
 [npm-stats]: https://npm-stat.com/charts.html?package=%40maizzle%2Fcli&from=2019-03-27
