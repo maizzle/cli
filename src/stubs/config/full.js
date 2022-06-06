@@ -58,9 +58,9 @@ module.exports = {
       height: [],
     },
     preferBgColorAttribute: false,
-    mergeLonghand: false,
     excludedProperties: null,
   },
+  shorthandInlineCSS: false,
   removeUnusedCSS: {
     whitelist: [],
     backend: [
