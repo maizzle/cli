@@ -1,11 +1,22 @@
-# Maizzle CLI
+<div align="center">
+  <p>
+    <a href="https://maizzle.com/#gh-light-mode-only" target="_blank">
+      <img src="./.github/cli-mark-light.svg" alt="Maizzle CLI" width="200">
+    </a>
+    <a href="https://maizzle.com/#gh-dark-mode-only" target="_blank">
+      <img src="./.github/cli-mark-dark.svg" alt="Maizzle CLI" width="200">
+    </a>
+  </p>
+<div>
 
-[![Version][npm-version-shield]][npm]
-[![Build][github-ci-shield]][github-ci]
-[![Downloads][npm-stats-shield]][npm-stats]
-[![License][license-shield]][license]
+  [![Version][npm-version-shield]][npm]
+  [![Build][github-ci-shield]][github-ci]
+  [![Downloads][npm-stats-shield]][npm-stats]
+  [![License][license-shield]][license]
 
-Full documentation is available at https://maizzle.com
+  </div>
+</div>
+
 
 ## Installation
 
@@ -33,7 +44,7 @@ Build for production:
 maizzle build production
 ```
 
-See the docs for all [available commands](https://maizzle.com/docs/cli/).
+Documentation is available at https://maizzle.com
 
 [npm]: https://www.npmjs.com/package/@maizzle/cli
 [npm-stats]: https://npm-stat.com/charts.html?package=%40maizzle%2Fcli&from=2019-03-27
