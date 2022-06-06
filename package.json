@@ -30,13 +30,13 @@
     "access": "public"
   },
   "scripts": {
-    "test": "nyc ava",
+    "test": "c8 ava",
     "pretest": "xo",
     "release": "np"
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "commander": "^8.0.0",
+    "commander": "^9.0.0",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "import-cwd": "^3.0.0",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "ava": "^4.0.1",
-    "nyc": "^15.1.0",
+    "c8": "^7.11.0",
     "xo": "^0.39.1"
   },
   "nyc": {

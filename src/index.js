@@ -1,11 +1,11 @@
 const {program} = require('commander')
 const importCwd = require('import-cwd')
-const Project = require('./commands/new')
-const Config = require('./commands/make/config')
-const Layout = require('./commands/make/layout')
+const Project = require('./commands/new.js')
+const Config = require('./commands/make/config.js')
+const Layout = require('./commands/make/layout.js')
+const Tailwind = require('./commands/make/tailwind.js')
+const Template = require('./commands/make/template.js')
 const updateNotifier = require('update-notifier')
-const Tailwind = require('./commands/make/tailwind')
-const Template = require('./commands/make/template')
 
 const notFoundError = 'Error: Framework not found\n\nMake sure to run this command in your Maizzle project root, with dependencies installed.'
 
@@ -66,12 +66,19 @@ module.exports = () => {
   program
     .command('serve [env]')
     .option('-b, --bin [bin]', 'path to the maizzle executable')
+    .option('-nc, --noclear [noclear]', 'do not clear the console log')
     .description('start a local development server and watch for file changes')
     .action((env, options) => {
       const bin = options.bin || './node_modules/@maizzle/framework/src'
 
       try {
-        importCwd(bin).serve(env)
+        importCwd(bin).serve(env, {
+          build: {
+            console: {
+              clear: !options.noclear
+            }
+          }
+        })
       } catch (error) {
         if (error.code === 'MODULE_NOT_FOUND') {
           console.error(notFoundError)

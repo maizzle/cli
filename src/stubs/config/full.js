@@ -26,12 +26,12 @@ module.exports = {
         extension: 'html',
       },
       assets: {
-        source: 'src/assets/images',
+        source: 'src/images',
         destination: 'images',
       },
     },
     tailwind: {
-      css: 'src/assets/css/main.css',
+      css: 'src/css/tailwind.css',
       config: 'tailwind.config.js',
     },
     posthtml: {
@@ -46,8 +46,7 @@ module.exports = {
     },
     fail: 'silent',
   },
-  baseImageURL: '',
-  googleFonts: '',
+  baseURL: '',
   inlineCSS: {
     styleToAttribute: {
       'vertical-align': 'valign',
@@ -59,18 +58,9 @@ module.exports = {
       height: [],
     },
     preferBgColorAttribute: false,
-    mergeLonghand: false,
     excludedProperties: null,
   },
-  purgeCSS: {
-    content: [
-      'src/layouts/**/*.*',
-      'src/partials/**/*.*',
-      'src/components/**/*.*',
-    ],
-    whitelist: [],
-    whitelistPatterns: [],
-  },
+  shorthandInlineCSS: false,
   removeUnusedCSS: {
     whitelist: [],
     backend: [
@@ -94,7 +84,7 @@ module.exports = {
       alt: ''
     }
   },
-  transformContents: {},
+  filters: {},
   urlParameters: {
     _options: {
       qs: {
