@@ -40,7 +40,14 @@ module.exports.scaffold = async (starter, directory, options, command) => {
       })
   }
 
-  const starters = new Set(['amp4email', 'nunjucks'])
+  const starters = new Set([
+    'amp4email',
+    'api',
+    'gradients',
+    'prismjs',
+    'rss',
+    'wordpress-api'
+  ])
 
   if (/^([\w-]+)\//i.test(starter)) {
     starter = `https://github.com/${starter}.git`
