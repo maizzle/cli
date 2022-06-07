@@ -26,7 +26,7 @@ test('it scaffolds from GitHub using user/repo argument', async t => {
 })
 
 test('it scaffolds a default starter', async t => {
-  await execa.command(`node bin/maizzle new nunjucks ${t.context.folder} -d`)
+  await execa.command(`node bin/maizzle new api ${t.context.folder} -d`)
 
   t.true(fs.existsSync(t.context.folder))
 })
