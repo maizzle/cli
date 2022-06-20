@@ -6,6 +6,7 @@
   "bin": {
     "maizzle": "bin/maizzle"
   },
+  "main": "bin/maizzle",
   "repository": {
     "type": "git",
     "url": "https://github.com/maizzle/cli.git"
