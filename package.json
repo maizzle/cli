@@ -44,7 +44,7 @@
     "inquirer": "^8.0.0",
     "np": "*",
     "ora": "^5.1.0",
-    "update-notifier": "^5.0.1"
+    "update-notifier": "^6.0.2"
   },
   "devDependencies": {
     "ava": "^4.0.1",
