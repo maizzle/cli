@@ -41,7 +41,7 @@
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "import-cwd": "^3.0.0",
-    "inquirer": "^8.0.0",
+    "inquirer": "^9.0.1",
     "np": "*",
     "ora": "^5.1.0",
     "update-notifier": "^5.0.1"
