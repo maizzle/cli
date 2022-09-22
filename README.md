@@ -1,10 +1,10 @@
 <div align="center">
   <p>
     <a href="https://maizzle.com/#gh-light-mode-only" target="_blank">
-      <img src="./.github/cli-mark-light.svg" alt="Maizzle CLI" width="200">
+      <img src="./.github/cli-mark-light.svg" alt="Maizzle CLI" width="300">
     </a>
     <a href="https://maizzle.com/#gh-dark-mode-only" target="_blank">
-      <img src="./.github/cli-mark-dark.svg" alt="Maizzle CLI" width="200">
+      <img src="./.github/cli-mark-dark.svg" alt="Maizzle CLI" width="300">
     </a>
   </p>
 <div>
