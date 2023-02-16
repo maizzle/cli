@@ -8,8 +8,6 @@ const Layout = require('./commands/make/layout.js')
 const Tailwind = require('./commands/make/tailwind.js')
 const Template = require('./commands/make/template.js')
 
-const notFoundError = 'Error: Framework not found\n\nMake sure to run this command in your Maizzle project root, with dependencies installed.'
-
 module.exports = () => {
   program
     .command('new [repository] [path]')
@@ -51,9 +49,7 @@ module.exports = () => {
       try {
         await importCwd(bin).build(env)
       } catch (error) {
-        if (error.code === 'MODULE_NOT_FOUND') {
-          console.error(notFoundError)
-        }
+        throw error
       }
 
       try {
@@ -61,7 +57,9 @@ module.exports = () => {
           pkg: importCwd('./node_modules/@maizzle/framework/package.json'),
           shouldNotifyInNpmScript: true,
         }).notify()
-      } catch {}
+      } catch (error) {
+        throw error
+      }
     })
 
   program
@@ -81,9 +79,7 @@ module.exports = () => {
           },
         })
       } catch (error) {
-        if (error.code === 'MODULE_NOT_FOUND') {
-          console.error(notFoundError)
-        }
+        throw error
       }
     })
 

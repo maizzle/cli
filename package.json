@@ -3,10 +3,18 @@
   "version": "1.5.1",
   "description": "CLI tool for the Maizzle Email Framework",
   "license": "MIT",
+  "main": "bin/maizzle",
   "bin": {
     "maizzle": "bin/maizzle"
   },
-  "main": "bin/maizzle",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "c8 ava",
+    "pretest": "xo",
+    "release": "np"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/maizzle/cli.git"
@@ -27,14 +35,6 @@
     "html-emails",
     "email-cli"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "test": "c8 ava",
-    "pretest": "xo",
-    "release": "np"
-  },
   "dependencies": {
     "chalk": "^4.1.0",
     "commander": "^10.0.0",

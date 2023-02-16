@@ -43,5 +43,7 @@ module.exports.scaffold = async (filename, options, command) => {
 
   return fs.outputFile(destination, html)
     .then(() => spinner.succeed(`Created new Layout in ${destination}`))
-    .catch(() => {})
+    .catch(error => {
+      throw error
+    })
 }

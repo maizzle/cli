@@ -85,7 +85,11 @@ module.exports.scaffold = async (starter, directory, options, command) => {
               .stopAndPersist({symbol: `${chalk.green('√')}`, text: 'Maizzle project initialized'})
               .info(`Now \`cd ${directory}\` and start building your emails`)
           })
-          .catch(error => spinner.fail(error.stderr))
+          .catch(error => {
+            spinner.fail(error.stderr)
+
+            throw error
+          })
       }
 
       return spinner

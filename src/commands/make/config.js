@@ -37,6 +37,8 @@ module.exports.scaffold = async (env, options, command) => {
   }
 
   return fs.outputFile(destination, config.replace('build_local', `build_${env}`))
-    .then(() => spinner.succeed(`Created new Config in ${destination}`))
-    .catch(() => {})
+    .then(() => spinner.succeed(`Created new config file in ${destination}`))
+    .catch(error => {
+      throw error
+    })
 }
