@@ -3,7 +3,7 @@ const execa = require('execa')
 
 test('throws if not in project (build)', async t => {
   await t.throwsAsync(async () => {
-    await execa.command('node bin/maizzle build')
+    await execa.command('node bin/maizzle build production')
   }, {instanceOf: Error})
 })
 
