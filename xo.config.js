@@ -3,6 +3,7 @@ module.exports = {
   rules: {
     semi: 0,
     camelcase: 0,
+    'no-useless-catch': 0,
     'arrow-body-style': 0,
     'unicorn/prefer-module': 0,
     'unicorn/string-content': 0,
