@@ -48,14 +48,10 @@ module.exports = () => {
 
       await importCwd(bin).build(env)
 
-      try {
-        updateNotifier({
-          pkg: importCwd('./node_modules/@maizzle/framework/package.json'),
-          shouldNotifyInNpmScript: true,
-        }).notify()
-      } catch (error) {
-        throw error
-      }
+      updateNotifier({
+        pkg: importCwd('./node_modules/@maizzle/framework/package.json'),
+        shouldNotifyInNpmScript: true,
+      }).notify()
     })
 
   program
@@ -66,17 +62,13 @@ module.exports = () => {
     .action((env, options) => {
       const bin = options.bin || './node_modules/@maizzle/framework/src'
 
-      try {
-        importCwd(bin).serve(env, {
-          build: {
-            console: {
-              clear: !options.noclear,
-            },
+      importCwd(bin).serve(env, {
+        build: {
+          console: {
+            clear: !options.noclear,
           },
-        })
-      } catch (error) {
-        throw error
-      }
+        },
+      })
     })
 
   program
@@ -86,6 +78,7 @@ module.exports = () => {
     .option('-v, --version', 'output current framework and CLI versions')
     .on('option:version', () => {
       const pkg = require('../package.json')
+
       try {
         const maizzle = importCwd('./node_modules/@maizzle/framework/package.json')
         console.log(`Framework v${maizzle.version}\nCLI v${pkg.version}`)
