@@ -1,5 +1,5 @@
-const ora = require('ora')
 const path = require('path')
+const ora = require('ora')
 const fs = require('fs-extra')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
@@ -11,13 +11,13 @@ module.exports.scaffold = async (filename, options, command) => {
         {
           name: 'filename',
           message: 'File name',
-          default: 'template.html'
+          default: 'template.html',
         },
         {
           name: 'directory',
           message: 'Directory to place it in',
-          default: 'src/templates'
-        }
+          default: 'src/templates',
+        },
       ])
       .then(answers => {
         filename = answers.filename

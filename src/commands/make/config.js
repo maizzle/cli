@@ -1,5 +1,5 @@
-const ora = require('ora')
 const path = require('path')
+const ora = require('ora')
 const fs = require('fs-extra')
 const inquirer = require('inquirer')
 
@@ -10,14 +10,14 @@ module.exports.scaffold = async (env, options, command) => {
         {
           name: 'environment',
           message: 'Environment name',
-          default: 'production'
+          default: 'production',
         },
         {
           name: 'full',
           type: 'confirm',
           message: 'Scaffold a full config',
-          default: false
-        }
+          default: false,
+        },
       ])
       .then(answers => {
         env = answers.environment

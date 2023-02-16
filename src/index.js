@@ -1,11 +1,12 @@
 const {program} = require('commander')
 const importCwd = require('import-cwd')
+const updateNotifier = require('update-notifier')
+
 const Project = require('./commands/new.js')
 const Config = require('./commands/make/config.js')
 const Layout = require('./commands/make/layout.js')
 const Tailwind = require('./commands/make/tailwind.js')
 const Template = require('./commands/make/template.js')
-const updateNotifier = require('update-notifier')
 
 const notFoundError = 'Error: Framework not found\n\nMake sure to run this command in your Maizzle project root, with dependencies installed.'
 
@@ -58,7 +59,7 @@ module.exports = () => {
       try {
         updateNotifier({
           pkg: importCwd('./node_modules/@maizzle/framework/package.json'),
-          shouldNotifyInNpmScript: true
+          shouldNotifyInNpmScript: true,
         }).notify()
       } catch {}
     })
@@ -75,9 +76,9 @@ module.exports = () => {
         importCwd(bin).serve(env, {
           build: {
             console: {
-              clear: !options.noclear
-            }
-          }
+              clear: !options.noclear,
+            },
+          },
         })
       } catch (error) {
         if (error.code === 'MODULE_NOT_FOUND') {
@@ -107,6 +108,6 @@ module.exports = () => {
 
   updateNotifier({
     pkg: require('../package.json'),
-    shouldNotifyInNpmScript: true
+    shouldNotifyInNpmScript: true,
   }).notify()
 }

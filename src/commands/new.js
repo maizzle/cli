@@ -1,5 +1,5 @@
-const ora = require('ora')
 const path = require('path')
+const ora = require('ora')
 const fs = require('fs-extra')
 const execa = require('execa')
 const chalk = require('chalk')
@@ -13,25 +13,25 @@ module.exports.scaffold = async (starter, directory, options, command) => {
         {
           name: 'directory',
           message: 'Project directory name',
-          default: 'maizzle'
+          default: 'maizzle',
         },
         {
           name: 'starter',
           type: 'confirm',
           message: 'Do you want to use a Starter',
-          default: false
+          default: false,
         },
         {
           name: 'repository',
           message: 'Starter Git repository URL',
-          when: answers => answers.starter
+          when: answers => answers.starter,
         },
         {
           name: 'dependencies',
           type: 'confirm',
           message: 'Install NPM dependencies',
-          default: true
-        }
+          default: true,
+        },
       ])
       .then(answers => {
         directory = answers.directory
@@ -46,7 +46,7 @@ module.exports.scaffold = async (starter, directory, options, command) => {
     'gradients',
     'prismjs',
     'rss',
-    'wordpress-api'
+    'wordpress-api',
   ])
 
   if (/^([\w-]+)\//i.test(starter)) {
