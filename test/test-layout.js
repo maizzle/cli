@@ -40,7 +40,7 @@ test('it requires a file extension', async t => {
 
 test('it does not overwrite existing files', async t => {
   await execa.command(`node bin/maizzle make:layout layout.html -d ${t.context.folder}`)
-  const mtimeMs = fs.statSync(`${t.context.folder}/layout.html`).mtimeMs
+  const {mtimeMs} = fs.statSync(`${t.context.folder}/layout.html`)
   await execa.command(`node bin/maizzle make:layout layout.html -d ${t.context.folder}`)
 
   t.is(fs.statSync(`${t.context.folder}/layout.html`).mtimeMs, mtimeMs)
