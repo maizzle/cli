@@ -46,11 +46,7 @@ module.exports = () => {
     .action(async (env, options) => {
       const bin = options.bin || './node_modules/@maizzle/framework/src'
 
-      try {
-        await importCwd(bin).build(env)
-      } catch (error) {
-        throw error
-      }
+      await importCwd(bin).build(env)
 
       try {
         updateNotifier({
