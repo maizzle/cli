@@ -14,13 +14,43 @@ module.exports = {
     },
     components: {
       root: './',
+      folders: ['src/components', 'src/layouts', 'src/templates'],
+      tag: 'component',
+      tagPrefix: 'x-',
+      attribute: 'href',
+      fileExtension: 'html',
+      yield: 'content',
+      slot: 'slot',
+      fill: 'fill',
+      slotSeparator: ':',
+      push: 'push',
+      stack: 'stack',
+      propsScriptAttribute: 'props',
+      propsContext: 'props',
+      propsAttribute: 'locals',
+      propsSlot: 'props',
+      parserOptions: {},
+      expressions: {},
+      plugins: [],
+      attrsParserRules: {},
+      strict: true,
+      utilities: {},
+      elementAttributes: {},
+      safelistAttributes: [],
+      blacklistAttributes: [],
     },
     layouts: {
       root: './',
+      encoding: 'utf8',
+      plugins: [],
+      strict: false,
+      slotTagName: 'block',
+      fillTagName: 'block',
+      tagName: 'extends',
     },
     templates: {
-      filetypes: 'html',
       source: 'src/templates',
+      filetypes: 'html',
       destination: {
         path: 'build_local',
         extension: 'html',
@@ -29,24 +59,70 @@ module.exports = {
         source: 'src/images',
         destination: 'images',
       },
+      omit: [],
+      skip: [],
     },
     tailwind: {
       css: 'src/css/tailwind.css',
       config: 'tailwind.config.js',
+      compiled: '',
     },
     posthtml: {
       plugins: [],
-      options: {},
-      fetch: {},
-      outlook: {},
+      options: {
+        directives: [],
+        xmlMode: false,
+        decodeEntities: false,
+        lowerCaseTags: false,
+        lowerCaseAttributeNames: false,
+        recognizeCDATA: false,
+        recognizeSelfClosing: true,
+        sourceLocations: false,
+        recognizeNoValueAttribute: true,
+        singleTags: [],
+        closingSingleTag: 'default',
+        quoteAllAttributes: true,
+        replaceQuote: true,
+        quoteStyle: 2,
+      },
+      fetch: {
+        tags: ['fetch', 'remote'],
+        attribute: 'url',
+        got: {},
+        preserveTags: false,
+        expressions: {},
+        plugins: {
+          after(tree) {
+            // Your plugin implementation
+          },
+          before: [
+            tree => {
+              // Your plugin implementation
+            },
+            tree => {
+              // Your plugin implementation
+            }
+          ]
+        },
+      },
+      outlook: {
+        tag: 'outlook',
+      },
       expressions: {},
     },
     postcss: {
       plugins: [],
     },
-    fail: 'silent',
+    fail: 'silent', // or 'verbose'
   },
-  baseURL: '',
+  baseURL: {
+    url: '',
+    allTags: true,
+    styleTag: true,
+    inlineCss: true,
+    tags: [],
+    attributes: {},
+  },
   inlineCSS: {
     styleToAttribute: {
       'vertical-align': 'valign',
@@ -60,7 +136,7 @@ module.exports = {
     preferBgColorAttribute: false,
     excludedProperties: null,
   },
-  shorthandInlineCSS: false,
+  shorthandCSS: false,
   removeUnusedCSS: {
     whitelist: [],
     backend: [
@@ -68,7 +144,7 @@ module.exports = {
     ],
     removeHTMLComments: false,
     removeCSSComments: false,
-    uglifyClassNames: false,
+    uglify: false,
     doNotRemoveHTMLCommentsWhoseOpeningTagContains: ['[if', '[endif'],
   },
   replaceStrings: {},
@@ -94,8 +170,11 @@ module.exports = {
     }
   },
   prettify: {
+    space_around_combinator: true, // Preserve space around CSS selector combinators
+    newline_between_rules: false, // Remove empty lines between CSS rules
+    indent_inner_html: false, // Helps reduce file size
+    extra_liners: [],
     unformatted: ['code', 'pre', 'em', 'strong', 'span'],
-    indent_inner_html: true,
     indent_char: ' ',
     indent_size: 2,
     sep: '\n',
@@ -131,17 +210,17 @@ module.exports = {
     markdownit: {},
     plugins: [],
   },
-  // events: {
-  //   beforeCreate(config) {},
-  //   beforeRender(html, config) {
-  //     return html
-  //   },
-  //   afterRender(html, config) {
-  //     return html
-  //   },
-  //   afterTransformers(html, config) {
-  //     return html
-  //   },
-  //   afterBuild(files) {},
-  // }
+  events: {
+    beforeCreate(config) {},
+    beforeRender(html, config) {
+      return html
+    },
+    afterRender(html, config) {
+      return html
+    },
+    afterTransformers(html, config) {
+      return html
+    },
+    afterBuild(files) {},
+  }
 }
