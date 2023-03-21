@@ -17,7 +17,7 @@ module.exports = {
       folders: ['src/components', 'src/layouts', 'src/templates'],
       tag: 'component',
       tagPrefix: 'x-',
-      attribute: 'href',
+      attribute: 'src',
       fileExtension: 'html',
       yield: 'content',
       slot: 'slot',
