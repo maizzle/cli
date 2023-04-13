@@ -1,6 +1,6 @@
 {
   "name": "@maizzle/cli",
-  "version": "1.5.4",
+  "version": "1.5.5-0",
   "description": "CLI tool for the Maizzle Email Framework",
   "license": "MIT",
   "main": "bin/maizzle",
