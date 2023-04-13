@@ -1,5 +1,6 @@
 const {program} = require('commander')
 const importCwd = require('import-cwd')
+const resolveCwd = require('resolve-cwd')
 const updateNotifier = require('update-notifier')
 
 const Project = require('./commands/new.js')
@@ -44,12 +45,12 @@ module.exports = () => {
     .option('-b, --bin [bin]', 'path to the maizzle executable')
     .description('compile email templates and output them to disk')
     .action(async (env, options) => {
-      const bin = options.bin || './node_modules/@maizzle/framework/src'
+      const bin = options.bin || resolveCwd('@maizzle/framework')
 
       await importCwd(bin).build(env)
 
       updateNotifier({
-        pkg: importCwd('./node_modules/@maizzle/framework/package.json'),
+        pkg: importCwd(resolveCwd('@maizzle/framework/package.json')),
         shouldNotifyInNpmScript: true,
       }).notify()
     })
@@ -60,7 +61,7 @@ module.exports = () => {
     .option('-nc, --noclear [noclear]', 'do not clear the console log')
     .description('start a local development server and watch for file changes')
     .action((env, options) => {
-      const bin = options.bin || './node_modules/@maizzle/framework/src'
+      const bin = options.bin || resolveCwd('@maizzle/framework')
 
       importCwd(bin).serve(env, {
         build: {
@@ -80,8 +81,7 @@ module.exports = () => {
       const pkg = require('../package.json')
 
       try {
-        const maizzle = importCwd('./node_modules/@maizzle/framework/package.json')
-        console.log(`Framework v${maizzle.version}\nCLI v${pkg.version}`)
+        console.log(`Framework v${importCwd(resolveCwd('@maizzle/framework/package.json')).version}\nCLI v${pkg.version}`)
       } catch {
         console.log(`CLI v${pkg.version}\nTo see your Framework version, run this command in the root directory of a Maizzle project.`)
       }
