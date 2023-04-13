@@ -15,6 +15,10 @@
     "pretest": "xo",
     "release": "np"
   },
+  "files": [
+    "src/**/*",
+    "bin/*"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/maizzle/cli.git"
