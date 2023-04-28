@@ -49,10 +49,12 @@ module.exports = () => {
 
       await importCwd(bin).build(env)
 
-      updateNotifier({
-        pkg: importCwd(resolveCwd('@maizzle/framework/package.json')),
-        shouldNotifyInNpmScript: true,
-      }).notify()
+      try {
+        updateNotifier({
+          pkg: importCwd(resolveCwd('@maizzle/framework/package.json')),
+          shouldNotifyInNpmScript: true,
+        }).notify()
+      } catch {}
     })
 
   program
