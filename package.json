@@ -47,7 +47,7 @@
     "import-cwd": "^3.0.0",
     "inquirer": "^8.0.0",
     "np": "*",
-    "ora": "^5.1.0",
+    "ora": "^7.0.0",
     "resolve-cwd": "^3.0.0",
     "update-notifier": "^5.0.1"
   },
