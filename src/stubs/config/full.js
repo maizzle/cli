@@ -1,3 +1,5 @@
+/** @type {import('@maizzle/framework').Config} */
+
 module.exports = {
   build: {
     browsersync: {
@@ -115,13 +117,13 @@ module.exports = {
     },
     fail: 'silent', // or 'verbose'
   },
+  applyTransformers: true,
   baseURL: {
     url: '',
-    allTags: true,
-    styleTag: true,
-    inlineCss: true,
     tags: [],
     attributes: {},
+    styleTag: true,
+    inlineCss: true,
   },
   inlineCSS: {
     styleToAttribute: {
@@ -142,8 +144,9 @@ module.exports = {
     backend: [
       { heads: '{{', tails: '}}' },
     ],
-    removeHTMLComments: false,
-    removeCSSComments: false,
+    removeHTMLComments: true,
+    removeCSSComments: true,
+    removeInlinedSelectors: true,
     uglify: false,
     doNotRemoveHTMLCommentsWhoseOpeningTagContains: ['[if', '[endif'],
   },
@@ -184,6 +187,8 @@ module.exports = {
     lineLengthLimit: 500,
     removeIndentations: true,
     removeLineBreaks: false,
+    removeCSSComments: true,
+    removeHTMLComments: true,
     breakToTheLeftOf: [
       '</td',
       '<html',
@@ -209,6 +214,22 @@ module.exports = {
     encoding: 'utf8',
     markdownit: {},
     plugins: [],
+  },
+  sixHex: true,
+  widowWords: {
+    attrName: 'prevent-widows',
+    removeWindowPreventionMeasures: false,
+    convertEntities: true,
+    targetLanguage: 'html',
+    hyphens: true,
+    minWordCount: 3,
+    minCharCount: 20,
+    ignore: [
+      {
+        heads: '{{',
+        tails: '}}'
+      },
+    ],
   },
   events: {
     beforeCreate(config) {},
