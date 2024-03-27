@@ -1,7 +1,6 @@
 const {program} = require('commander')
 const importCwd = require('import-cwd')
 const resolveCwd = require('resolve-cwd')
-const updateNotifier = require('update-notifier')
 
 const Project = require('./commands/new.js')
 const Config = require('./commands/make/config.js')
@@ -13,7 +12,7 @@ module.exports = () => {
   program
     .command('new [repository] [path]')
     .description('scaffold a new Maizzle project')
-    .option('-d, --no-deps', `Don't install NPM dependencies`)
+    .option('-d, --no-deps', 'Don\'t install NPM dependencies')
     .action((repository, path, options, command) => Project.scaffold(repository, path, options, command))
 
   program
@@ -48,13 +47,6 @@ module.exports = () => {
       const bin = options.bin || resolveCwd('@maizzle/framework')
 
       await importCwd(bin).build(env)
-
-      try {
-        updateNotifier({
-          pkg: importCwd(resolveCwd('@maizzle/framework/package.json')),
-          shouldNotifyInNpmScript: true,
-        }).notify()
-      } catch {}
     })
 
   program
@@ -92,9 +84,4 @@ module.exports = () => {
     })
 
   program.parse(process.argv)
-
-  updateNotifier({
-    pkg: require('../package.json'),
-    shouldNotifyInNpmScript: true,
-  }).notify()
 }
