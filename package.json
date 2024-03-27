@@ -12,12 +12,12 @@
   },
   "scripts": {
     "test": "c8 ava",
-    "pretest": "xo",
+    "pretest": "eslint src/*.{js,ts}",
     "release": "np"
   },
   "files": [
     "src/**/*",
-    "bin/*"
+    "bin"
   ],
   "repository": {
     "type": "git",
@@ -53,7 +53,7 @@
   "devDependencies": {
     "ava": "^5.2.0",
     "c8": "^9.1.0",
-    "xo": "^0.53.1"
+    "eslint": "^8.57.0"
   },
   "engines": {
     "node": ">=14.0.0"
