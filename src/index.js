@@ -12,7 +12,7 @@ module.exports = () => {
   program
     .command('new [repository] [path]')
     .description('scaffold a new Maizzle project')
-    .option('-d, --no-deps', `Don't install NPM dependencies`)
+    .option('-d, --no-deps', 'Don\'t install NPM dependencies')
     .action((repository, path, options, command) => Project.scaffold(repository, path, options, command))
 
   program
