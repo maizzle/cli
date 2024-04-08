@@ -17,7 +17,7 @@
   },
   "files": [
     "src/**/*",
-    "bin/*"
+    "bin"
   ],
   "repository": {
     "type": "git",
