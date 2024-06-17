@@ -1,49 +1,73 @@
-const path = require('path')
-const ora = require('ora')
-const fs = require('fs-extra')
-const chalk = require('chalk')
-const inquirer = require('inquirer')
+import {
+  mkdir,
+  lstat,
+  readFile,
+  writeFile
+} from 'node:fs/promises'
+import color from 'picocolors'
+import process from 'node:process'
+import * as p from '@clack/prompts'
+import { fileURLToPath } from 'url'
+import { resolve, dirname } from 'pathe'
 
-module.exports.scaffold = async (filename, options, command) => {
-  if (command.args.length === 0) {
-    await inquirer
-      .prompt([
-        {
-          name: 'filename',
+async function scaffold(filePath, stubPath = 'stubs/layout.html') {
+  let __dirname = dirname(fileURLToPath(import.meta.url))
+
+  try {
+    await lstat(filePath)
+    p.outro(color.red(`ERROR: ${filePath} already exists.`))
+    process.exit(1)
+  } catch {
+    let html = await readFile(resolve(__dirname, stubPath), 'utf-8')
+
+    const pathExists = await lstat(dirname(filePath)).catch(() => false)
+
+    if (!pathExists) {
+      await mkdir(dirname(filePath), { recursive: true })
+    }
+
+    await writeFile(filePath, html)
+
+    p.outro(`${filePath} has been created.`)
+    process.exit(0)
+  }
+}
+
+export default async function(filePath) {
+  // File path provided, scaffold immediately
+  if (filePath) {
+    await scaffold(filePath)
+  }
+
+  p.intro(`${color.bgCyan(color.black(' maizzle make:layout '))}`)
+
+  let template = await p.group(
+    {
+      filename: () =>
+        p.text({
           message: 'File name',
-          default: 'layout.html',
-        },
-        {
-          name: 'directory',
+          validate: value => {
+            if (!value) return 'Please enter a file name.'
+          },
+        }),
+      path: () =>
+        p.text({
           message: 'Directory to place it in',
-          default: 'src/layouts',
-        },
-      ])
-      .then(answers => {
-        filename = answers.filename
-        options.directory = answers.directory
-      })
-  }
+          placeholder: './src/layouts',
+          validate: value => {
+            if (!value) return 'Please enter a path.'
+            if (value[0] !== '.') return 'Please enter a relative path.'
+          },
+        }),
+    },
+    {
+      onCancel: () => {
+        p.cancel('💀')
+        process.exit(0)
+      },
+    }
+  )
 
-  filename = filename || 'layout.html'
-  options.directory = options.directory || 'src/layouts'
-
-  const spinner = ora()
-
-  if (['', '.'].includes(path.parse(filename).ext)) {
-    return spinner.fail(`File name must include an extension, i.e. ${filename}${chalk.italic('.html')}`)
-  }
-
-  const html = fs.readFileSync(path.resolve(__dirname, '../../stubs/layout.html'), 'utf8')
-  const destination = path.resolve(`${options.directory}/${filename}`)
-
-  if (fs.existsSync(destination)) {
-    return spinner.fail(`File exists: ${destination}`)
-  }
-
-  return fs.outputFile(destination, html)
-    .then(() => spinner.succeed(`Created new Layout in ${destination}`))
-    .catch(error => {
-      throw error
-    })
+  // Scaffold the template
+  await scaffold(`${template.path}/${template.filename}`)
 }

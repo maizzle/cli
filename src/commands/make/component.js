@@ -10,7 +10,7 @@ import * as p from '@clack/prompts'
 import { fileURLToPath } from 'url'
 import { resolve, dirname } from 'pathe'
 
-async function scaffold(filePath, stubPath = 'stubs/template.html') {
+async function scaffold(filePath, stubPath = 'stubs/component.html') {
   let __dirname = dirname(fileURLToPath(import.meta.url))
 
   try {
@@ -39,13 +39,14 @@ export default async function(filePath) {
     await scaffold(filePath)
   }
 
-  p.intro(`${color.bgCyan(color.black(' maizzle make:template '))}`)
+  p.intro(`${color.bgCyan(color.black(' maizzle make:component '))}`)
 
-  let template = await p.group(
+  let component = await p.group(
     {
       filename: () =>
         p.text({
           message: 'File name',
+          placeholder: 'button.html',
           validate: value => {
             if (!value) return 'Please enter a file name.'
           },
@@ -53,7 +54,7 @@ export default async function(filePath) {
       path: () =>
         p.text({
           message: 'Directory to place it in',
-          placeholder: './src/templates',
+          placeholder: './src/components',
           validate: value => {
             if (!value) return 'Please enter a path.'
             if (value[0] !== '.') return 'Please enter a relative path.'
@@ -68,6 +69,6 @@ export default async function(filePath) {
     }
   )
 
-  // Scaffold the template
-  await scaffold(`${template.path}/${template.filename}`)
+  // Scaffold the component
+  await scaffold(`${component.path}/${component.filename}`)
 }

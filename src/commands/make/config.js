@@ -1,44 +1,75 @@
-const path = require('path')
-const ora = require('ora')
-const fs = require('fs-extra')
-const inquirer = require('inquirer')
+import {
+  mkdir,
+  lstat,
+  readFile,
+  writeFile
+} from 'node:fs/promises'
+import color from 'picocolors'
+import process from 'node:process'
+import * as p from '@clack/prompts'
+import { fileURLToPath } from 'url'
+import { resolve, dirname } from 'pathe'
 
-module.exports.scaffold = async (env, options, command) => {
-  if (command.args.length === 0) {
-    await inquirer
-      .prompt([
-        {
-          name: 'environment',
+async function scaffold(filePath, type = 'base') {
+  let __dirname = dirname(fileURLToPath(import.meta.url))
+
+  try {
+    await lstat(filePath)
+    p.outro(color.red(`ERROR: ${filePath} already exists.`))
+    process.exit(1)
+  } catch {
+    let html = await readFile(resolve(__dirname, `stubs/config/${type}.js`), 'utf-8')
+
+    const pathExists = await lstat(dirname(filePath)).catch(() => false)
+
+    if (!pathExists) {
+      await mkdir(dirname(filePath), { recursive: true })
+    }
+
+    await writeFile(filePath, html)
+
+    p.outro(`${filePath} has been created.`)
+    process.exit(0)
+  }
+}
+
+export default async function(environment, type) {
+  // File path provided, scaffold immediately
+  if (environment) {
+    await scaffold(environment, type && 'full')
+  }
+
+  p.intro(`${color.bgCyan(color.black(' maizzle make:config '))}`)
+
+  let template = await p.group(
+    {
+      environment: () =>
+        p.text({
           message: 'Environment name',
-          default: 'production',
-        },
-        {
-          name: 'full',
-          type: 'confirm',
-          message: 'Scaffold a full config',
-          default: false,
-        },
-      ])
-      .then(answers => {
-        env = answers.environment
-        options.full = answers.full
-      })
+          placeholder: 'production',
+          validate: value => {
+            if (!value) return 'Please enter an environment name.'
+            if (value.includes(' ')) return 'Use - instead of spaces.'
+          },
+        }),
+      full: () =>
+        p.confirm({
+          message: 'Scaffold a full config?',
+          initialValue: false,
+        }),
+    },
+    {
+      onCancel: () => {
+        p.cancel('💀')
+        process.exit(0)
+      },
+    }
+  )
+
+  // Scaffold the config file
+  if (template.full) {
+    await scaffold(`config.${template.environment}.js`, 'full')
+  } else {
+    await scaffold(`config.${template.environment}.js`)
   }
-
-  env = env || 'production'
-  options.full = options.full || false
-
-  const spinner = ora()
-  const destination = path.resolve(`${process.cwd()}/config.${env}.js`)
-  const config = fs.readFileSync(path.resolve(__dirname, `../../stubs/config/${options.full ? 'full' : 'base'}.js`), 'utf8')
-
-  if (fs.existsSync(destination)) {
-    return spinner.fail(`File exists: ${destination}`)
-  }
-
-  return fs.outputFile(destination, config.replace('build_local', `build_${env}`))
-    .then(() => spinner.succeed(`Created new config file in ${destination}`))
-    .catch(error => {
-      throw error
-    })
 }

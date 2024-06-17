@@ -5,8 +5,6 @@
   <meta name="x-apple-disable-message-reformatting">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
-  <meta name="color-scheme" content="light dark">
-  <meta name="supported-color-schemes" content="light dark">
   <!--[if mso]>
   <noscript>
     <xml>
@@ -23,7 +21,8 @@
     <title>{{{ page.title }}}</title>
   </if>
   <style>
-    {{{ page.css }}}
+    @tailwind utilities;
+    @tailwind components;
   </style>
   <stack name="head" />
 </head>
@@ -35,7 +34,7 @@
     </div>
   </if>
   <div role="article" aria-roledescription="email" aria-label="{{{ page.title || '' }}}" lang="{{ page.language || 'en' }}">
-    <content />
+    <yield />
   </div>
 </body>
 </html>
