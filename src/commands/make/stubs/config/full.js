@@ -14,8 +14,9 @@ export default {
     spinner: 'circleHalves',
   },
   server: {
-    port: 3000,
     hmr: true,
+    maxRetries: 10,
+    port: 3000,
     scrollSync: true,
     watch: ['./src/images/**/*'],
     reportFileSize: true,
