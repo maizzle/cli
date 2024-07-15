@@ -54,15 +54,15 @@ export default async function() {
     .option('-b, --bin [bin]', 'path to the maizzle executable')
     .option('-c, --config [config]', 'path to a maizzle config file')
     .description('Build templates and output to disk')
-    .action(async (environment, options) => {
+    .action(async (env, options) => {
       if (options.bin) {
         let { build } = await importFrom(options.bin, '@maizzle/framework')
 
-        options.config ? await build(options.config) : await build({ environment })
+        options.config ? await build(options.config) : await build({ env })
       } else {
         let { build } = await importFrom(process.cwd(), '@maizzle/framework')
 
-        options.config ? await build(options.config) : await build({ environment })
+        options.config ? await build(options.config) : await build({ env })
       }
     })
 
@@ -78,15 +78,15 @@ export default async function() {
     .option('-c, --config [config]', 'path to a maizzle config file')
     .option('-nc, --noclear [noclear]', 'do not clear the console log')
     .description('Start a local development server')
-    .action(async (environment, options) => {
+    .action(async (env, options) => {
       if (options.bin) {
         let { serve } = await importFrom(options.bin, '@maizzle/framework')
 
-        options.config ? await serve(options.config) : await serve({ environment })
+        options.config ? await serve(options.config) : await serve({ env })
       } else {
         let { serve } = await importFrom(process.cwd(), '@maizzle/framework')
 
-        options.config ? await serve(options.config) : await serve({ environment })
+        options.config ? await serve(options.config) : await serve({ env })
       }
     })
 
