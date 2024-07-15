@@ -16,7 +16,7 @@
     "src"
   ],
   "scripts": {
-    "release": "np",
+    "release": "npx np",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
@@ -47,8 +47,5 @@
     "ora": "^8.0.1",
     "pathe": "^1.1.2",
     "picocolors": "^1.0.1"
-  },
-  "devDependencies": {
-    "np": "*"
   }
 }
