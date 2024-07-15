@@ -12,6 +12,7 @@ export default {
     },
     summary: true,
     spinner: 'circleHalves',
+    expressions: {},
   },
   server: {
     hmr: true,
@@ -59,7 +60,7 @@ export default {
     tagPrefix: 'x-',
     attribute: 'src',
     fileExtension: 'html',
-    yield: 'content',
+    yield: 'yield',
     slot: 'slot',
     fill: 'fill',
     slotSeparator: ':',
@@ -82,7 +83,7 @@ export default {
   outlook: {
     tag: 'outlook', // posthtml-mso config
   },
-  // useTransformers: false,
+  useTransformers: true,
   css: {
     purge: {
       whitelist: [],
