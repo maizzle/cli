@@ -80,17 +80,20 @@ export default async function() {
     .command('serve [environment]')
     .option('-b, --bin [bin]', 'path to the maizzle executable')
     .option('-c, --config [config]', 'path to a maizzle config file')
-    .option('-nc, --noclear [noclear]', 'do not clear the console log')
+    .option('-p, --port [port]', 'port number to run the server on')
     .description('Start a local development server')
     .action(async (env, options) => {
+      let config = options.config
+      let port = options.port
+
       if (options.bin) {
         let { serve } = await importFrom(options.bin, '@maizzle/framework')
 
-        options.config ? await serve(options.config) : await serve({ env })
+        config ? await serve(config) : await serve({ server: { port }, env })
       } else {
         let { serve } = await importFrom(process.cwd(), '@maizzle/framework')
 
-        options.config ? await serve(options.config) : await serve({ env })
+        config ? await serve(config) : await serve({ server: { port }, env })
       }
     })
 
