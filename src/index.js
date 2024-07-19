@@ -53,16 +53,20 @@ export default async function() {
     .command('build [environment]')
     .option('-b, --bin [bin]', 'path to the maizzle executable')
     .option('-c, --config [config]', 'path to a maizzle config file')
+    .option('-s, --summary', 'output a summary of the build process')
     .description('Build templates and output to disk')
     .action(async (env, options) => {
+      let config = options.config
+      let summary = options.summary
+
       if (options.bin) {
         let { build } = await importFrom(options.bin, '@maizzle/framework')
 
-        options.config ? await build(options.config) : await build({ env })
+         config ? await build(config) : await build({ build: { summary }, env })
       } else {
         let { build } = await importFrom(process.cwd(), '@maizzle/framework')
 
-        options.config ? await build(options.config) : await build({ env })
+         config ? await build(config) : await build({ build: { summary }, env })
       }
     })
 
