@@ -3,4 +3,7 @@ module.exports = {
   presets: [
     require('tailwindcss-preset-email'),
   ],
+  content: [
+    './src/**/*.html',
+  ],
 }
