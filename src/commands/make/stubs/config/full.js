@@ -3,7 +3,7 @@ export default {
   build: {
     content: ['src/templates/**/*.html'],
     static: {
-      source: ['src/images/**/*.*'],
+      source: ['src/images/**/*'],
       destination: 'images',
     },
     output: {
@@ -18,14 +18,15 @@ export default {
     hmr: true,
     maxRetries: 10,
     port: 3000,
-    scrollSync: true,
+    scrollSync: false,
     watch: ['./src/images/**/*'],
-    reportFileSize: true,
+    reportFileSize: false,
+    spinner: 'circleHalves',
   },
   plaintext: {
     output: {
       path: 'build_production/plaintext',
-      extension: 'rtxt'
+      extension: 'txt'
     },
     skipHtmlDecoding: true,
   },
@@ -109,12 +110,9 @@ export default {
       preferUnitlessValues: false,
       resolveCalc: true,
     },
-    safeClassNames: true,
+    safe: true,
     sixHex: true,
     shorthand: true,
-    shorthand: {
-      tags: ['table'],
-    },
   },
   locals: {},
   baseURL: {
@@ -132,10 +130,17 @@ export default {
         role: 'none',
       },
       img: {
-        alt: ''
+        alt: true,
       }
     },
     remove: ['foo-bar'],
+  },
+  fetch: {
+    tags: ['fetch'],
+    attribute: 'url',
+    ofetch: {},
+    preserveTag: false,
+    expressions: {},
   },
   filters: false,
   urlParameters: {
@@ -150,7 +155,6 @@ export default {
     utm_medium: 'email',
   },
   prettify: true,
-  minify: true,
   minify: {
     lineLengthLimit: 500,
     removeIndentations: true,
@@ -198,20 +202,9 @@ export default {
       },
     ],
   },
-  beforeCreate(config) {
-    // you may update the config object
-  },
-  async beforeRender({html, config, render}) {
-    // must return `html`
-    return html
-  },
-  afterRender({html, config, render}) {
-    // must return `html`
-    return html
-  },
-  afterTransformers({html, config, render}) {
-    // must return `html`
-    return html
-  },
-  async afterBuild({files, config, render}) {}
+  beforeCreate({config}) {},
+  beforeRender({html, matter, config, posthtml}) {},
+  afterRender({html, matter, config, posthtml}) {},
+  afterTransformers({html, matter, config, posthtml}) {},
+  afterBuild({files, config, render}) {}
 }
