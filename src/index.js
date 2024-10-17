@@ -54,6 +54,7 @@ export default async function() {
     .option('-b, --bin [bin]', 'path to the maizzle executable')
     .option('-c, --config [config]', 'path to a maizzle config file')
     .option('-s, --summary', 'output a summary of the build process')
+    .allowUnknownOption()
     .description('Build templates and output to disk')
     .action(async (env, options) => {
       let config = options.config
@@ -81,6 +82,7 @@ export default async function() {
     .option('-b, --bin [bin]', 'path to the maizzle executable')
     .option('-c, --config [config]', 'path to a maizzle config file')
     .option('-p, --port [port]', 'port number to run the server on')
+    .allowUnknownOption()
     .description('Start a local development server')
     .action(async (env, options) => {
       let config = options.config
