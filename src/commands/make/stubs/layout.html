@@ -5,6 +5,8 @@
   <meta name="x-apple-disable-message-reformatting">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
   <!--[if mso]>
   <noscript>
     <xml>
@@ -15,6 +17,7 @@
   </noscript>
   <style>
     td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
+    .mso-break-all {word-break: break-all;}
   </style>
   <![endif]-->
   <if condition="page.title">
@@ -22,13 +25,14 @@
   </if>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" media="screen">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" media="screen">
   <style>
+    @tailwind components;
+    @tailwind utilities;
+
     img {
       @apply max-w-full align-middle;
     }
-    @tailwind components;
-    @tailwind utilities;
   </style>
   <stack name="head" />
 </head>

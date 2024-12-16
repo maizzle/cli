@@ -1,25 +1,24 @@
 /** @type {import('@maizzle/framework').Config} */
 export default {
   build: {
-    content: ['src/templates/**/*.html'],
+    content: ['emails/**/*.html'],
     static: {
-      source: ['src/images/**/*'],
+      source: ['images/**/*.*'],
       destination: 'images',
     },
     output: {
       path: 'build_production',
       extension: 'html',
     },
-    summary: true,
     spinner: 'circleHalves',
-    expressions: {},
+    summary: true,
   },
   server: {
     hmr: true,
     maxRetries: 10,
     port: 3000,
     scrollSync: false,
-    watch: ['./src/images/**/*'],
+    watch: ['./images/**/*'],
     reportFileSize: false,
     spinner: 'circleHalves',
   },
@@ -56,7 +55,7 @@ export default {
   // },
   components: {
     root: './',
-    folders: ['src/components', 'src/layouts', 'src/templates'],
+    folders: ['components', 'emails', 'layouts'],
     tag: 'component',
     tagPrefix: 'x-',
     attribute: 'src',
@@ -79,7 +78,7 @@ export default {
     utilities: {},
     elementAttributes: {},
     safelistAttributes: [],
-    blacklistAttributes: [],
+    blocklistAttributes: [],
   },
   outlook: {
     tag: 'outlook', // posthtml-mso config
@@ -104,12 +103,12 @@ export default {
       applyWidthAttributes: [],
       applyHeightAttributes: [],
       useAttributeSizes: true,
-      resolveCSSVariables: true,
       removeInlinedSelectors: true,
       excludedProperties: [],
       preferUnitlessValues: false,
-      resolveCalc: true,
     },
+    resolveCalc: true,
+    resolveProps: true,
     safe: true,
     sixHex: true,
     shorthand: true,
@@ -188,23 +187,19 @@ export default {
     plugins: [],
   },
   widowWords: {
-    attrName: 'prevent-widows',
-    removeWindowPreventionMeasures: false,
-    convertEntities: true,
-    targetLanguage: 'html',
-    hyphens: true,
-    minWordCount: 3,
-    minCharCount: 20,
+    attributes: ['prevent-widows'],
+    createWidows: false,
+    minWords: 3,
     ignore: [
       {
-        heads: '{{',
-        tails: '}}'
+        start: '{{',
+        end: '}}'
       },
     ],
   },
   beforeCreate({config}) {},
-  beforeRender({html, matter, config, posthtml}) {},
-  afterRender({html, matter, config, posthtml}) {},
-  afterTransformers({html, matter, config, posthtml}) {},
-  afterBuild({files, config, render}) {}
+  beforeRender({html, matter, config}) {},
+  afterRender({html, matter, config}) {},
+  afterTransformers({html, matter, config}) {},
+  afterBuild({files, config}) {}
 }
