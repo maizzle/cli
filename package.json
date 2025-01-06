@@ -43,7 +43,7 @@
     "@clack/prompts": "^0.9.0",
     "commander": "^12.1.0",
     "create-maizzle": "^0.3.0",
-    "import-from-esm": "^1.3.4",
+    "import-from-esm": "^2.0.0",
     "ora": "^8.0.1",
     "pathe": "^1.1.2",
     "picocolors": "^1.0.1"
