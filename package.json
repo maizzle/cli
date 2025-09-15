@@ -41,7 +41,7 @@
   ],
   "dependencies": {
     "@clack/prompts": "^0.11.0",
-    "commander": "^12.1.0",
+    "commander": "^14.0.1",
     "create-maizzle": "^0.3.0",
     "import-from-esm": "^2.0.0",
     "ora": "^8.0.1",
