@@ -7,17 +7,34 @@
   "publishConfig": {
     "access": "public"
   },
-  "exports": "./src/index.js",
-  "bin": {
-    "maizzle": "bin/maizzle.mjs"
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.mts"
+    }
   },
   "files": [
-    "bin",
-    "src"
+    "dist"
   ],
   "scripts": {
-    "release": "npx np",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "build": "tsdown",
+    "prepublishOnly": "npm run build",
+    "dev": "vitest",
+    "test": "vitest run --coverage",
+    "release": "npx np"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.10.0",
+    "commander": "^13.1.0",
+    "create-maizzle": "^1.0.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "@vitest/coverage-v8": "^4.1.2",
+    "tsdown": "^0.21.7",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.2"
   },
   "repository": {
     "type": "git",
@@ -38,14 +55,5 @@
     "email-boilerplate",
     "html-emails",
     "email-cli"
-  ],
-  "dependencies": {
-    "@clack/prompts": "^0.11.0",
-    "commander": "^12.1.0",
-    "create-maizzle": "^0.3.0",
-    "import-from-esm": "^2.0.0",
-    "ora": "^8.0.1",
-    "pathe": "^2.0.0",
-    "picocolors": "^1.0.1"
-  }
+  ]
 }

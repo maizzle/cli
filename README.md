@@ -43,7 +43,7 @@ maizzle serve
 Build for production:
 
 ```bash
-maizzle build production
+maizzle build
 ```
 
 Documentation is available at https://maizzle.com
