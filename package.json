@@ -21,7 +21,7 @@
     "prepublishOnly": "npm run build",
     "dev": "vitest",
     "test": "vitest run --coverage",
-    "release": "npx np"
+    "release": "npm run build && npx np"
   },
   "dependencies": {
     "@clack/prompts": "^0.10.0",
