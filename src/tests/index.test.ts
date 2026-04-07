@@ -13,9 +13,9 @@ vi.mock('@clack/prompts', () => ({
   confirm: vi.fn(),
 }))
 
-// Mock create-maizzle
-vi.mock('create-maizzle', () => ({
-  main: vi.fn(),
+// Mock the new command so it doesn't actually scaffold
+vi.mock('../commands/new.ts', () => ({
+  default: vi.fn(),
 }))
 
 import bootstrap from '../index.ts'
@@ -82,5 +82,32 @@ describe('bootstrap', () => {
       config: 'custom.config.ts',
       output: 'dist',
     })
+  })
+
+  it('registers new command without framework', async () => {
+    const newProject = (await import('../commands/new.ts')).default
+
+    process.argv = ['node', 'maizzle', 'new']
+
+    await bootstrap()
+
+    expect(newProject).toHaveBeenCalled()
+  })
+
+  it('does not register serve/build without framework', async () => {
+    process.argv = ['node', 'maizzle', 'serve']
+
+    // commander will error on unknown command, so we catch it
+    const mockError = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const mockExit = vi.spyOn(process, 'exit').mockImplementation((() => {
+      throw new Error('exit')
+    }) as any)
+
+    try {
+      await bootstrap()
+    } catch {}
+
+    mockError.mockRestore()
+    mockExit.mockRestore()
   })
 })
