@@ -46,7 +46,7 @@ Interactive mode:
 maizzle new
 ```
 
-Scaffold a project from a starter:
+Scaffold a project from a GitHub starter repo (user/repo):
 
 ```bash
 maizzle new maizzle/maizzle
