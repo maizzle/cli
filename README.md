@@ -18,41 +18,123 @@
   </div>
 </div>
 
-> **Note:** This repository contains the code for Maizzle's CLI tool. If you want to build HTML emails using Maizzle, visit the [Starter repository](https://github.com/maizzle/maizzle).
-
 ## Installation
 
+You may use `maizzle` directly, with `npx`:
+
 ```bash
-npm install -g @maizzle/cli
+npx maizzle new
+```
+
+This will start the interactive setup:
+
+![Maizzle CLI preview](https://github.com/maizzle/cli/raw/master/.github/preview.jpg)
+
+Alternatively, you can install it globally:
+
+```bash
+npm install -g maizzle
 ```
 
 ## Usage
 
-Create a new project using the interactive prompt:
+### Create a new project
+
+Interactive mode:
 
 ```bash
 maizzle new
 ```
 
-Start a local development server by running the `serve` command in the project directory:
+Scaffold a project from a starter:
+
+```bash
+maizzle new maizzle/maizzle
+```
+
+Specify a target directory:
+
+```bash
+maizzle new maizzle/maizzle my-project
+```
+
+Automatically install dependencies:
+
+```bash
+maizzle new maizzle/maizzle my-project --install
+```
+
+Use a specific package manager:
+
+```bash
+maizzle new maizzle/maizzle my-project --install --pm pnpm
+```
+
+### Development
+
+Start a local development server:
 
 ```bash
 maizzle serve
 ```
 
-Build for production:
+### Build
+
+Build emails for production:
 
 ```bash
-maizzle build production
+maizzle build
 ```
 
-Documentation is available at https://maizzle.com
+### Scaffolding
 
-[npm]: https://www.npmjs.com/package/@maizzle/cli
-[npm-stats]: https://npm-stat.com/charts.html?package=%40maizzle%2Fcli&from=2019-03-27
-[npm-version-shield]: https://img.shields.io/npm/v/@maizzle/cli.svg
-[npm-stats-shield]: https://img.shields.io/npm/dt/@maizzle/cli.svg?color=4f46e5
+You may use the `make` command to scaffold new files for your project.
+
+#### Template
+
+Create a new email template:
+
+```bash
+maizzle make:template [filepath]
+```
+
+#### Layout
+
+Create a new email layout with the base HTML email structure and a default slot:
+
+```bash
+maizzle make:layout [filepath]
+```
+
+#### Component
+
+Create a new component with a slot and props:
+
+```bash
+maizzle make:component [filepath]
+```
+
+#### Config
+
+Create a new `maizzle.config.ts` file:
+
+```bash
+maizzle make:config [name]
+```
+
+## Documentation
+
+Maizzle documentation is available at https://maizzle.com
+
+## License
+
+The Maizzle framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+[npm]: https://www.npmjs.com/package/maizzle
+[npm-stats]: https://npm-stat.com/charts.html?package=maizzle
+[npm-version-shield]: https://img.shields.io/npm/v/maizzle.svg
+[npm-stats-shield]: https://img.shields.io/npm/dt/maizzle.svg?color=4f46e5
 [github-ci]: https://github.com/maizzle/cli/actions
 [github-ci-shield]: https://github.com/maizzle/cli/actions/workflows/nodejs.yml/badge.svg
 [license]: ./LICENSE
-[license-shield]: https://img.shields.io/npm/l/@maizzle/cli.svg?color=0e9f6e
+[license-shield]: https://img.shields.io/npm/l/maizzle.svg?color=0e9f6e

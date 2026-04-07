@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import bootstrap from '../src/index.js'
+import bootstrap from '../dist/index.mjs'
 
 await bootstrap()
