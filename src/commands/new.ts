@@ -4,7 +4,7 @@ import * as p from '@clack/prompts'
 import { rm } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
-import { installDependencies, detectPackageManager } from 'nypm'
+import { installDependencies } from 'nypm'
 
 const starters = [
   {
@@ -175,22 +175,7 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
             message: 'Install dependencies?',
             initialValue: true,
           }),
-        pm: async ({ results }) => {
-          if (!results.install) return 'npm'
-
-          const detected = await detectPackageManager(process.cwd()).catch(() => null)
-
-          return p.select({
-            message: 'Select a package manager',
-            initialValue: detected?.name || 'npm',
-            options: [
-              { value: 'npm', label: 'npm' },
-              { value: 'pnpm', label: 'pnpm' },
-              { value: 'yarn', label: 'yarn' },
-              { value: 'bun', label: 'bun' },
-            ],
-          })
-        },
+        pm: async () => 'npm',
       },
       {
         onCancel: () => {
