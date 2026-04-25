@@ -206,7 +206,7 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
 
   if (project.install) {
     try {
-      execFileSync(project.pm, ['--version'], { stdio: 'ignore' })
+      execFileSync(project.pm, ['--version'], { stdio: 'ignore', shell: true })
     } catch {
       p.log.error(`${project.pm} is not installed. Please install it first.`)
       process.exit(1)
