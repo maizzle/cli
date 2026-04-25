@@ -175,7 +175,7 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
             message: 'Install dependencies?',
             initialValue: true,
           }),
-        pm: async () => 'npm',
+        pm: async () => options.pm || 'npm',
       },
       {
         onCancel: () => {
