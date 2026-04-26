@@ -19,7 +19,8 @@
   ],
   "scripts": {
     "build": "tsdown",
-    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run build",
     "dev": "vitest",
     "test": "vitest run --coverage",
     "release": "npm run build && npx np"
