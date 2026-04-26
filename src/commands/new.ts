@@ -3,7 +3,7 @@ import color from 'picocolors'
 import * as p from '@clack/prompts'
 import { rm } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
-import { execFileSync } from 'node:child_process'
+import { execSync } from 'node:child_process'
 import { installDependencies } from 'nypm'
 
 const starters = [
@@ -206,7 +206,7 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
 
   if (project.install) {
     try {
-      execFileSync(project.pm, ['--version'], { stdio: 'ignore', shell: true })
+      execSync(`${project.pm} --version`, { stdio: 'ignore' })
     } catch {
       p.log.error(`${project.pm} is not installed. Please install it first.`)
       process.exit(1)
