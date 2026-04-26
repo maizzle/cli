@@ -8,6 +8,7 @@ import makeComponent from './commands/make/component.ts'
 interface Framework {
   serve: (options?: any) => Promise<any>
   build: (options?: any) => Promise<any>
+  prepare: (options?: any) => Promise<any>
 }
 
 export default async function bootstrap(framework?: Framework) {
@@ -42,6 +43,16 @@ export default async function bootstrap(framework?: Framework) {
         await framework.build({
           config: options.config,
           output: options.output,
+        })
+      })
+
+    program
+      .command('prepare')
+      .description('Generate IDE type definitions in .maizzle/')
+      .option('-c, --config <path>', 'Path to maizzle config file')
+      .action(async (options) => {
+        await framework.prepare({
+          config: options.config,
         })
       })
   }

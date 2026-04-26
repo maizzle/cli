@@ -23,6 +23,7 @@ import bootstrap from '../index.ts'
 const mockFramework = {
   serve: vi.fn().mockResolvedValue(undefined),
   build: vi.fn().mockResolvedValue(undefined),
+  prepare: vi.fn().mockResolvedValue(undefined),
 }
 
 let originalArgv: string[]
@@ -31,6 +32,7 @@ beforeEach(() => {
   originalArgv = process.argv
   mockFramework.serve.mockClear()
   mockFramework.build.mockClear()
+  mockFramework.prepare.mockClear()
 })
 
 afterEach(() => {
@@ -81,6 +83,26 @@ describe('bootstrap', () => {
     expect(mockFramework.build).toHaveBeenCalledWith({
       config: 'custom.config.ts',
       output: 'dist',
+    })
+  })
+
+  it('calls framework.prepare for the prepare command', async () => {
+    process.argv = ['node', 'maizzle', 'prepare']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.prepare).toHaveBeenCalledWith({
+      config: undefined,
+    })
+  })
+
+  it('passes config option to prepare', async () => {
+    process.argv = ['node', 'maizzle', 'prepare', '-c', 'custom.config.ts']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.prepare).toHaveBeenCalledWith({
+      config: 'custom.config.ts',
     })
   })
 
