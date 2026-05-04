@@ -30,6 +30,6 @@ export async function scaffold(filePath: string, stubName: string) {
 }
 
 export function onCancel() {
-  p.cancel('Cancelled.')
+  p.cancel('Canceled.')
   process.exit(0)
 }
