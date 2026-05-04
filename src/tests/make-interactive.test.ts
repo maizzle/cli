@@ -73,7 +73,7 @@ describe('make:config interactive', () => {
     await makeConfig()
 
     const nameField = textCalls.find(c => c.message === 'Config name')
-    expect(nameField.validate('has space')).toBe('Use - instead of spaces.')
+    expect(nameField.validate('has space')).toBe('Use - or . instead of spaces.')
   })
 })
 
