@@ -128,6 +128,16 @@ describe('bootstrap', () => {
     expect(mockFramework.build).toHaveBeenCalledWith({ plaintext: true })
   })
 
+  it('passes --dir as content override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '--dir', 'templates']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({
+      content: ['templates/**/*.{vue,md}'],
+    })
+  })
+
   it('calls framework.prepare for the prepare command', async () => {
     process.argv = ['node', 'maizzle', 'prepare']
 

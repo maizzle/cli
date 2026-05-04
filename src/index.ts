@@ -40,8 +40,9 @@ export default async function bootstrap(framework?: Framework) {
       .description('Build email templates to HTML')
       .option('-c, --config <path>', 'Path to a Maizzle config file')
       .option('-o, --output <path>', 'Output directory')
-      .option('--pretty', 'Pretty-print HTML output (ignored when -c is set)')
-      .option('--plaintext', 'Generate plaintext versions (ignored when -c is set)')
+      .option('--pretty', 'Pretty-print HTML output')
+      .option('--plaintext', 'Generate plaintext versions')
+      .option('--dir <path>', 'Source directory for email templates')
       .action(async (options) => {
         if (options.config) {
           await framework.build(options.config)
@@ -52,6 +53,7 @@ export default async function bootstrap(framework?: Framework) {
         if (options.output) overrides.output = { path: options.output }
         if (options.pretty) overrides.html = { format: true }
         if (options.plaintext) overrides.plaintext = true
+        if (options.dir) overrides.content = [`${options.dir}/**/*.{vue,md}`]
 
         await framework.build(Object.keys(overrides).length ? overrides : undefined)
       })
