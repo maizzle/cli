@@ -4,7 +4,7 @@ import { scaffold, onCancel } from './scaffold.ts'
 
 export default async function makeLayout(filePath?: string) {
   if (filePath) {
-    await scaffold(filePath, 'layout.vue')
+    await scaffold(filePath, 'Layout.vue')
     return
   }
 
@@ -24,14 +24,14 @@ export default async function makeLayout(filePath?: string) {
         p.text({
           message: 'Directory to place it in',
           placeholder: './components',
+          initialValue: './components',
           validate: value => {
             if (!value) return 'Please enter a path.'
-            if (value[0] !== '.') return 'Please enter a relative path.'
           },
         }),
     },
     { onCancel },
   )
 
-  await scaffold(`${result.path}/${result.filename}`, 'layout.vue')
+  await scaffold(`${result.path}/${result.filename}`, 'Layout.vue')
 }

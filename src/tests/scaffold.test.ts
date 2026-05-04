@@ -71,7 +71,7 @@ describe('onCancel', () => {
   it('calls p.cancel and exits with 0', () => {
     onCancel()
 
-    expect(p.cancel).toHaveBeenCalledWith('Cancelled.')
+    expect(p.cancel).toHaveBeenCalledWith('Canceled.')
     expect(mockExit).toHaveBeenCalledWith(0)
   })
 })

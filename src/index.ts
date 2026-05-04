@@ -17,13 +17,14 @@ export default async function bootstrap(framework?: Framework) {
   program
     .name('maizzle')
     .description('Maizzle CLI')
-    .version('1.0.0')
+    .version('1.2.0')
 
   if (framework) {
     program
       .command('serve')
+      .alias('dev')
       .description('Start the Maizzle dev server with HMR')
-      .option('-c, --config <path>', 'Path to maizzle config file')
+      .option('-c, --config <path>', 'Path to a Maizzle config file')
       .option('-p, --port <number>', 'Dev server port')
       .option('--host [address]', 'Expose on network')
       .action(async (options) => {
@@ -37,19 +38,34 @@ export default async function bootstrap(framework?: Framework) {
     program
       .command('build')
       .description('Build email templates to HTML')
-      .option('-c, --config <path>', 'Path to maizzle config file')
+      .option('-c, --config <path>', 'Path to a Maizzle config file')
       .option('-o, --output <path>', 'Output directory')
+      .option('--pretty', 'Pretty-print HTML output')
+      .option('--minify', 'Minify HTML output')
+      .option('--plaintext', 'Generate plaintext versions')
+      .option('--dir <path>', 'Source directory for email templates')
+      .option('--ext <extension>', 'Output file extension')
       .action(async (options) => {
-        await framework.build({
-          config: options.config,
-          output: options.output,
-        })
+        if (options.config) {
+          await framework.build(options.config)
+          return
+        }
+
+        const overrides: Record<string, any> = {}
+        if (options.output) overrides.output = { ...overrides.output, path: options.output }
+        if (options.ext) overrides.output = { ...overrides.output, extension: options.ext }
+        if (options.pretty) overrides.html = { ...overrides.html, format: true }
+        if (options.minify) overrides.html = { ...overrides.html, minify: true }
+        if (options.plaintext) overrides.plaintext = true
+        if (options.dir) overrides.content = [`${options.dir}/**/*.{vue,md}`]
+
+        await framework.build(Object.keys(overrides).length ? overrides : undefined)
       })
 
     program
       .command('prepare')
       .description('Generate IDE type definitions in .maizzle/')
-      .option('-c, --config <path>', 'Path to maizzle config file')
+      .option('-c, --config <path>', 'Path to a Maizzle config file')
       .action(async (options) => {
         await framework.prepare({
           config: options.config,

@@ -18,6 +18,11 @@ vi.mock('../commands/new.ts', () => ({
   default: vi.fn(),
 }))
 
+vi.mock('../commands/make/config.ts', () => ({ default: vi.fn() }))
+vi.mock('../commands/make/layout.ts', () => ({ default: vi.fn() }))
+vi.mock('../commands/make/template.ts', () => ({ default: vi.fn() }))
+vi.mock('../commands/make/component.ts', () => ({ default: vi.fn() }))
+
 import bootstrap from '../index.ts'
 
 const mockFramework = {
@@ -64,25 +69,98 @@ describe('bootstrap', () => {
     })
   })
 
-  it('calls framework.build for the build command', async () => {
+  it('calls framework.build with no args for bare build command', async () => {
     process.argv = ['node', 'maizzle', 'build']
 
     await bootstrap(mockFramework)
 
-    expect(mockFramework.build).toHaveBeenCalledWith({
-      config: undefined,
-      output: undefined,
-    })
+    expect(mockFramework.build).toHaveBeenCalledWith(undefined)
   })
 
-  it('passes config and output options to build', async () => {
-    process.argv = ['node', 'maizzle', 'build', '-c', 'custom.config.ts', '-o', 'dist']
+  it('passes config path as a string when -c is set', async () => {
+    process.argv = ['node', 'maizzle', 'build', '-c', 'custom.config.ts']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith('custom.config.ts')
+  })
+
+  it('passes -o as output.path override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '-o', 'dist']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({ output: { path: 'dist' } })
+  })
+
+  it('ignores override flags when -c is set', async () => {
+    process.argv = ['node', 'maizzle', 'build', '-c', 'custom.config.ts', '-o', 'dist', '--pretty']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith('custom.config.ts')
+  })
+
+  it('passes --pretty as html.format override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '--pretty']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({ html: { format: true } })
+  })
+
+  it('combines --pretty with -o overrides', async () => {
+    process.argv = ['node', 'maizzle', 'build', '-o', 'dist', '--pretty']
 
     await bootstrap(mockFramework)
 
     expect(mockFramework.build).toHaveBeenCalledWith({
-      config: 'custom.config.ts',
-      output: 'dist',
+      output: { path: 'dist' },
+      html: { format: true },
+    })
+  })
+
+  it('passes --plaintext as plaintext override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '--plaintext']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({ plaintext: true })
+  })
+
+  it('passes --ext as output.extension override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '--ext', 'blade.php']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({ output: { extension: 'blade.php' } })
+  })
+
+  it('combines -o and --ext into output overrides', async () => {
+    process.argv = ['node', 'maizzle', 'build', '-o', 'dist', '--ext', 'blade.php']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({
+      output: { path: 'dist', extension: 'blade.php' },
+    })
+  })
+
+  it('passes --minify as html.minify override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '--minify']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({ html: { minify: true } })
+  })
+
+  it('passes --dir as content override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '--dir', 'templates']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({
+      content: ['templates/**/*.{vue,md}'],
     })
   })
 
@@ -114,6 +192,42 @@ describe('bootstrap', () => {
     await bootstrap()
 
     expect(newProject).toHaveBeenCalled()
+  })
+
+  it('dispatches make:config to its handler', async () => {
+    const makeConfig = (await import('../commands/make/config.ts')).default
+    process.argv = ['node', 'maizzle', 'make:config', 'production']
+
+    await bootstrap()
+
+    expect(makeConfig).toHaveBeenCalledWith('production')
+  })
+
+  it('dispatches make:layout to its handler', async () => {
+    const makeLayout = (await import('../commands/make/layout.ts')).default
+    process.argv = ['node', 'maizzle', 'make:layout', './components/Layout.vue']
+
+    await bootstrap()
+
+    expect(makeLayout).toHaveBeenCalledWith('./components/Layout.vue')
+  })
+
+  it('dispatches make:template to its handler', async () => {
+    const makeTemplate = (await import('../commands/make/template.ts')).default
+    process.argv = ['node', 'maizzle', 'make:template', './emails/welcome.vue']
+
+    await bootstrap()
+
+    expect(makeTemplate).toHaveBeenCalledWith('./emails/welcome.vue')
+  })
+
+  it('dispatches make:component to its handler', async () => {
+    const makeComponent = (await import('../commands/make/component.ts')).default
+    process.argv = ['node', 'maizzle', 'make:component', './components/Button.vue']
+
+    await bootstrap()
+
+    expect(makeComponent).toHaveBeenCalledWith('./components/Button.vue')
   })
 
   it('does not register serve/build without framework', async () => {

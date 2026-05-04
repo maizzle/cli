@@ -139,8 +139,8 @@ describe('make:component', () => {
     expect(existsSync(filePath)).toBe(true)
 
     const content = readFileSync(filePath, 'utf-8')
+    expect(content).toContain('script setup')
     expect(content).toContain('<slot />')
-    expect(content).toContain('defineProps')
   })
 
   it('creates nested directories if needed', async () => {

@@ -24,9 +24,9 @@ export default async function makeComponent(filePath?: string) {
         p.text({
           message: 'Directory to place it in',
           placeholder: './components',
+          initialValue: './components',
           validate: value => {
             if (!value) return 'Please enter a path.'
-            if (value[0] !== '.') return 'Please enter a relative path.'
           },
         }),
     },

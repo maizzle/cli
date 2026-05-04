@@ -18,7 +18,7 @@ export default async function makeConfig(name?: string) {
           placeholder: 'production',
           validate: value => {
             if (!value) return 'Please enter a config name.'
-            if (value.includes(' ')) return 'Use - instead of spaces.'
+            if (value.includes(' ')) return 'Use - or . instead of spaces.'
           },
         }),
     },
