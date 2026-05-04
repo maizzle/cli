@@ -41,10 +41,15 @@ export default async function bootstrap(framework?: Framework) {
       .option('-c, --config <path>', 'Path to a Maizzle config file')
       .option('-o, --output <path>', 'Output directory')
       .action(async (options) => {
-        await framework.build({
-          config: options.config,
-          output: options.output,
-        })
+        if (options.config) {
+          await framework.build(options.config)
+          return
+        }
+
+        const overrides: Record<string, any> = {}
+        if (options.output) overrides.output = { path: options.output }
+
+        await framework.build(Object.keys(overrides).length ? overrides : undefined)
       })
 
     program

@@ -69,26 +69,36 @@ describe('bootstrap', () => {
     })
   })
 
-  it('calls framework.build for the build command', async () => {
+  it('calls framework.build with no args for bare build command', async () => {
     process.argv = ['node', 'maizzle', 'build']
 
     await bootstrap(mockFramework)
 
-    expect(mockFramework.build).toHaveBeenCalledWith({
-      config: undefined,
-      output: undefined,
-    })
+    expect(mockFramework.build).toHaveBeenCalledWith(undefined)
   })
 
-  it('passes config and output options to build', async () => {
+  it('passes config path as a string when -c is set', async () => {
+    process.argv = ['node', 'maizzle', 'build', '-c', 'custom.config.ts']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith('custom.config.ts')
+  })
+
+  it('passes -o as output.path override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '-o', 'dist']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({ output: { path: 'dist' } })
+  })
+
+  it('ignores override flags when -c is set', async () => {
     process.argv = ['node', 'maizzle', 'build', '-c', 'custom.config.ts', '-o', 'dist']
 
     await bootstrap(mockFramework)
 
-    expect(mockFramework.build).toHaveBeenCalledWith({
-      config: 'custom.config.ts',
-      output: 'dist',
-    })
+    expect(mockFramework.build).toHaveBeenCalledWith('custom.config.ts')
   })
 
   it('calls framework.prepare for the prepare command', async () => {
