@@ -41,6 +41,7 @@ export default async function bootstrap(framework?: Framework) {
       .option('-c, --config <path>', 'Path to a Maizzle config file')
       .option('-o, --output <path>', 'Output directory')
       .option('--pretty', 'Pretty-print HTML output (ignored when -c is set)')
+      .option('--plaintext', 'Generate plaintext versions (ignored when -c is set)')
       .action(async (options) => {
         if (options.config) {
           await framework.build(options.config)
@@ -50,6 +51,7 @@ export default async function bootstrap(framework?: Framework) {
         const overrides: Record<string, any> = {}
         if (options.output) overrides.output = { path: options.output }
         if (options.pretty) overrides.html = { format: true }
+        if (options.plaintext) overrides.plaintext = true
 
         await framework.build(Object.keys(overrides).length ? overrides : undefined)
       })

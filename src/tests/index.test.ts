@@ -120,6 +120,14 @@ describe('bootstrap', () => {
     })
   })
 
+  it('passes --plaintext as plaintext override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '--plaintext']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({ plaintext: true })
+  })
+
   it('calls framework.prepare for the prepare command', async () => {
     process.argv = ['node', 'maizzle', 'prepare']
 
