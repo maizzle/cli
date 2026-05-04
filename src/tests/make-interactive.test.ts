@@ -99,11 +99,11 @@ describe('make:layout interactive', () => {
     expect(field.validate('')).toBe('Please enter a path.')
   })
 
-  it('validates non-relative path', async () => {
+  it('accepts any non-empty path', async () => {
     await makeLayout()
 
     const field = textCalls.find(c => c.message === 'Directory to place it in')
-    expect(field.validate('components')).toBe('Please enter a relative path.')
+    expect(field.validate('components')).toBeUndefined()
     expect(field.validate('./components')).toBeUndefined()
   })
 })
@@ -127,7 +127,7 @@ describe('make:template interactive', () => {
 
     const field = textCalls.find(c => c.message === 'Directory to place it in')
     expect(field.validate('')).toBe('Please enter a path.')
-    expect(field.validate('emails')).toBe('Please enter a relative path.')
+    expect(field.validate('emails')).toBeUndefined()
     expect(field.validate('./emails')).toBeUndefined()
   })
 })
@@ -151,7 +151,7 @@ describe('make:component interactive', () => {
 
     const field = textCalls.find(c => c.message === 'Directory to place it in')
     expect(field.validate('')).toBe('Please enter a path.')
-    expect(field.validate('components')).toBe('Please enter a relative path.')
+    expect(field.validate('components')).toBeUndefined()
     expect(field.validate('./components')).toBeUndefined()
   })
 })

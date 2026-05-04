@@ -125,9 +125,9 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
           p.text({
             message: 'Where should we create your project?',
             placeholder: './maizzle',
+            initialValue: './maizzle',
             validate: value => {
               if (!value) return 'Please enter a path.'
-              if (value[0] !== '.') return 'Please enter a relative path.'
               if (existsSync(value)) return 'That directory already exists. Please enter a different path.'
             },
           }),

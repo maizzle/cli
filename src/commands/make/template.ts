@@ -24,9 +24,9 @@ export default async function makeTemplate(filePath?: string) {
         p.text({
           message: 'Directory to place it in',
           placeholder: './emails',
+          initialValue: './emails',
           validate: value => {
             if (!value) return 'Please enter a path.'
-            if (value[0] !== '.') return 'Please enter a relative path.'
           },
         }),
     },
