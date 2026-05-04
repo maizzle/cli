@@ -186,23 +186,8 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
     ) as unknown as Project
   }
 
-  const spinner = p.spinner()
-
-  spinner.start('Creating project')
-
   const starter = starters.find(s => s.value === project.starter)
   const source = starter ? starter.path : project.starter
-
-  await downloadTemplate(source.includes(':') ? source : `gh:${source}`, {
-    dir: project.path,
-  })
-
-  await rm(`${project.path}/.github`, {
-    recursive: true,
-    force: true
-  })
-
-  spinner.stop(`Created project in ${project.path}`)
 
   if (project.install) {
     try {
@@ -211,18 +196,33 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
       p.log.error(`${project.pm} is not installed. Please install it first.`)
       process.exit(1)
     }
-
-    spinner.start('Installing dependencies')
-    const startTime = Date.now()
-
-    await installDependencies({
-      cwd: project.path,
-      silent: true,
-      packageManager: project.pm as any,
-    })
-
-    spinner.stop(`Installed dependencies ${color.gray((Date.now() - startTime) / 1000 + 's')}`)
   }
+
+  await p.tasks([
+    {
+      title: 'Creating project',
+      task: async () => {
+        await downloadTemplate(source.includes(':') ? source : `gh:${source}`, {
+          dir: project.path,
+        })
+        await rm(`${project.path}/.github`, { recursive: true, force: true })
+        return `Created project in ${project.path}`
+      },
+    },
+    {
+      title: 'Installing dependencies',
+      enabled: project.install,
+      task: async () => {
+        const startTime = Date.now()
+        await installDependencies({
+          cwd: project.path,
+          silent: true,
+          packageManager: project.pm as any,
+        })
+        return `Installed dependencies ${color.gray((Date.now() - startTime) / 1000 + 's')}`
+      },
+    },
+  ])
 
   const pm = project.pm || 'npm'
   const runCmd = pm === 'yarn' ? 'yarn dev' : `${pm} run dev`
