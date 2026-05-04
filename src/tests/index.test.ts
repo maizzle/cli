@@ -128,6 +128,14 @@ describe('bootstrap', () => {
     expect(mockFramework.build).toHaveBeenCalledWith({ plaintext: true })
   })
 
+  it('passes --minify as html.minify override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '--minify']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({ html: { minify: true } })
+  })
+
   it('passes --dir as content override', async () => {
     process.argv = ['node', 'maizzle', 'build', '--dir', 'templates']
 

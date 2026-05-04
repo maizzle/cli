@@ -41,6 +41,7 @@ export default async function bootstrap(framework?: Framework) {
       .option('-c, --config <path>', 'Path to a Maizzle config file')
       .option('-o, --output <path>', 'Output directory')
       .option('--pretty', 'Pretty-print HTML output')
+      .option('--minify', 'Minify HTML output')
       .option('--plaintext', 'Generate plaintext versions')
       .option('--dir <path>', 'Source directory for email templates')
       .action(async (options) => {
@@ -51,7 +52,8 @@ export default async function bootstrap(framework?: Framework) {
 
         const overrides: Record<string, any> = {}
         if (options.output) overrides.output = { path: options.output }
-        if (options.pretty) overrides.html = { format: true }
+        if (options.pretty) overrides.html = { ...overrides.html, format: true }
+        if (options.minify) overrides.html = { ...overrides.html, minify: true }
         if (options.plaintext) overrides.plaintext = true
         if (options.dir) overrides.content = [`${options.dir}/**/*.{vue,md}`]
 
