@@ -18,6 +18,11 @@ vi.mock('../commands/new.ts', () => ({
   default: vi.fn(),
 }))
 
+vi.mock('../commands/make/config.ts', () => ({ default: vi.fn() }))
+vi.mock('../commands/make/layout.ts', () => ({ default: vi.fn() }))
+vi.mock('../commands/make/template.ts', () => ({ default: vi.fn() }))
+vi.mock('../commands/make/component.ts', () => ({ default: vi.fn() }))
+
 import bootstrap from '../index.ts'
 
 const mockFramework = {
@@ -114,6 +119,42 @@ describe('bootstrap', () => {
     await bootstrap()
 
     expect(newProject).toHaveBeenCalled()
+  })
+
+  it('dispatches make:config to its handler', async () => {
+    const makeConfig = (await import('../commands/make/config.ts')).default
+    process.argv = ['node', 'maizzle', 'make:config', 'production']
+
+    await bootstrap()
+
+    expect(makeConfig).toHaveBeenCalledWith('production')
+  })
+
+  it('dispatches make:layout to its handler', async () => {
+    const makeLayout = (await import('../commands/make/layout.ts')).default
+    process.argv = ['node', 'maizzle', 'make:layout', './components/Layout.vue']
+
+    await bootstrap()
+
+    expect(makeLayout).toHaveBeenCalledWith('./components/Layout.vue')
+  })
+
+  it('dispatches make:template to its handler', async () => {
+    const makeTemplate = (await import('../commands/make/template.ts')).default
+    process.argv = ['node', 'maizzle', 'make:template', './emails/welcome.vue']
+
+    await bootstrap()
+
+    expect(makeTemplate).toHaveBeenCalledWith('./emails/welcome.vue')
+  })
+
+  it('dispatches make:component to its handler', async () => {
+    const makeComponent = (await import('../commands/make/component.ts')).default
+    process.argv = ['node', 'maizzle', 'make:component', './components/Button.vue']
+
+    await bootstrap()
+
+    expect(makeComponent).toHaveBeenCalledWith('./components/Button.vue')
   })
 
   it('does not register serve/build without framework', async () => {
