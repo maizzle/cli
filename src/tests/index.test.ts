@@ -94,11 +94,30 @@ describe('bootstrap', () => {
   })
 
   it('ignores override flags when -c is set', async () => {
-    process.argv = ['node', 'maizzle', 'build', '-c', 'custom.config.ts', '-o', 'dist']
+    process.argv = ['node', 'maizzle', 'build', '-c', 'custom.config.ts', '-o', 'dist', '--pretty']
 
     await bootstrap(mockFramework)
 
     expect(mockFramework.build).toHaveBeenCalledWith('custom.config.ts')
+  })
+
+  it('passes --pretty as html.format override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '--pretty']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({ html: { format: true } })
+  })
+
+  it('combines --pretty with -o overrides', async () => {
+    process.argv = ['node', 'maizzle', 'build', '-o', 'dist', '--pretty']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({
+      output: { path: 'dist' },
+      html: { format: true },
+    })
   })
 
   it('calls framework.prepare for the prepare command', async () => {
