@@ -78,12 +78,36 @@ Start a local development server:
 maizzle serve
 ```
 
+`maizzle dev` is an alias for `maizzle serve`.
+
 ### Build
 
 Build emails for production:
 
 ```bash
 maizzle build
+```
+
+#### Options
+
+| Option | Description |
+|--------|-------------|
+| `-c, --config <path>` | Path to a Maizzle config file |
+| `-o, --output <path>` | Output directory |
+| `--dir <path>` | Source directory for email templates |
+| `--ext <extension>` | Output file extension |
+| `--pretty` | Pretty-print HTML output |
+| `--minify` | Minify HTML output |
+| `--plaintext` | Generate plaintext versions alongside HTML |
+
+When `-c, --config` is set, the override flags (`-o`, `--dir`, `--ext`, `--pretty`, `--minify`, `--plaintext`) are ignored — your config file is used as-is.
+
+### Prepare
+
+Generate IDE type definitions in `.maizzle/`. Run after adding new components or composables when you want auto-import types to update without starting the dev server:
+
+```bash
+maizzle prepare
 ```
 
 ### Scaffolding
