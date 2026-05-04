@@ -17,13 +17,14 @@ export default async function bootstrap(framework?: Framework) {
   program
     .name('maizzle')
     .description('Maizzle CLI')
-    .version('1.0.0')
+    .version('1.2.0')
 
   if (framework) {
     program
       .command('serve')
+      .alias('dev')
       .description('Start the Maizzle dev server with HMR')
-      .option('-c, --config <path>', 'Path to maizzle config file')
+      .option('-c, --config <path>', 'Path to a Maizzle config file')
       .option('-p, --port <number>', 'Dev server port')
       .option('--host [address]', 'Expose on network')
       .action(async (options) => {
@@ -37,7 +38,7 @@ export default async function bootstrap(framework?: Framework) {
     program
       .command('build')
       .description('Build email templates to HTML')
-      .option('-c, --config <path>', 'Path to maizzle config file')
+      .option('-c, --config <path>', 'Path to a Maizzle config file')
       .option('-o, --output <path>', 'Output directory')
       .action(async (options) => {
         await framework.build({
@@ -49,7 +50,7 @@ export default async function bootstrap(framework?: Framework) {
     program
       .command('prepare')
       .description('Generate IDE type definitions in .maizzle/')
-      .option('-c, --config <path>', 'Path to maizzle config file')
+      .option('-c, --config <path>', 'Path to a Maizzle config file')
       .action(async (options) => {
         await framework.prepare({
           config: options.config,
