@@ -44,6 +44,7 @@ export default async function bootstrap(framework?: Framework) {
       .option('--minify', 'Minify HTML output')
       .option('--plaintext', 'Generate plaintext versions')
       .option('--dir <path>', 'Source directory for email templates')
+      .option('--ext <extension>', 'Output file extension')
       .action(async (options) => {
         if (options.config) {
           await framework.build(options.config)
@@ -51,7 +52,8 @@ export default async function bootstrap(framework?: Framework) {
         }
 
         const overrides: Record<string, any> = {}
-        if (options.output) overrides.output = { path: options.output }
+        if (options.output) overrides.output = { ...overrides.output, path: options.output }
+        if (options.ext) overrides.output = { ...overrides.output, extension: options.ext }
         if (options.pretty) overrides.html = { ...overrides.html, format: true }
         if (options.minify) overrides.html = { ...overrides.html, minify: true }
         if (options.plaintext) overrides.plaintext = true

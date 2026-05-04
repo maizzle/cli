@@ -128,6 +128,24 @@ describe('bootstrap', () => {
     expect(mockFramework.build).toHaveBeenCalledWith({ plaintext: true })
   })
 
+  it('passes --ext as output.extension override', async () => {
+    process.argv = ['node', 'maizzle', 'build', '--ext', 'blade.php']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({ output: { extension: 'blade.php' } })
+  })
+
+  it('combines -o and --ext into output overrides', async () => {
+    process.argv = ['node', 'maizzle', 'build', '-o', 'dist', '--ext', 'blade.php']
+
+    await bootstrap(mockFramework)
+
+    expect(mockFramework.build).toHaveBeenCalledWith({
+      output: { path: 'dist', extension: 'blade.php' },
+    })
+  })
+
   it('passes --minify as html.minify override', async () => {
     process.argv = ['node', 'maizzle', 'build', '--minify']
 
