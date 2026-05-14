@@ -6,54 +6,6 @@ import { existsSync } from 'node:fs'
 import { execSync } from 'node:child_process'
 import { installDependencies } from 'nypm'
 
-const starters = [
-  {
-    label: 'Default',
-    value: 'maizzle/maizzle',
-    path: 'gh:maizzle/maizzle#master',
-  },
-  {
-    label: 'v4.x',
-    value: 'maizzle/starter-v4',
-    path: 'gh:maizzle/starter-v4#master',
-  },
-  {
-    label: 'API',
-    value: 'maizzle/starter-api',
-    path: 'gh:maizzle/starter-api#main',
-  },
-  {
-    label: 'AMP4Email',
-    value: 'maizzle/starter-amp4email',
-    path: 'gh:maizzle/starter-amp4email#master',
-  },
-  {
-    label: 'Liquid',
-    value: 'maizzle/starter-liquid',
-    path: 'gh:maizzle/starter-liquid#master',
-  },
-  {
-    label: 'Mailchimp',
-    value: 'maizzle/starter-mailchimp',
-    path: 'gh:maizzle/starter-mailchimp#main',
-  },
-  {
-    label: 'Markdown',
-    value: 'maizzle/starter-markdown',
-    path: 'gh:maizzle/starter-markdown#main',
-  },
-  {
-    label: 'RSS',
-    value: 'maizzle/starter-rss',
-    path: 'gh:maizzle/starter-rss#master',
-  },
-  {
-    label: 'WordPress API',
-    value: 'maizzle/starter-wordpress-api',
-    path: 'gh:maizzle/starter-wordpress-api#master',
-  },
-]
-
 function renderHeader() {
   const lines = [
     ' ███╗   ███╗  █████╗  ██╗ ███████╗ ███████╗ ██╗      ███████╗',
@@ -134,38 +86,20 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
         starter: async () => {
           const starter = await p.select({
             message: 'Select a Starter',
-            initialValue: 'maizzle/maizzle',
+            initialValue: 'maizzle/maizzle#next',
             options: [
-              { value: 'maizzle/maizzle', label: 'Default' },
+              { value: 'maizzle/maizzle#next', label: 'Default' },
               { value: 'custom', label: 'Custom' },
-              { value: 'maizzle6-beta', label: 'Maizzle 6 (beta)' },
             ],
           })
 
-          if (starter === 'maizzle6-beta') {
-            return 'maizzle/maizzle#next'
-          }
-
           if (starter === 'custom') {
-            const customStarter = await p.select({
-              message: 'Select a custom Starter',
-              initialValue: 'maizzle/maizzle',
-              options: [
-                ...starters,
-                { value: 'git', label: 'Git', hint: 'user/repo' },
-              ],
+            return p.text({
+              message: 'Enter a GitHub `user/repo` path or a full Git repository URL.',
+              validate: value => {
+                if (!value) return 'Please enter a value.'
+              },
             })
-
-            if (customStarter === 'git') {
-              return p.text({
-                message: 'Enter a `user/repo` path or a full Git repository URL.',
-                validate: value => {
-                  if (!value) return 'Please enter a value.'
-                },
-              })
-            }
-
-            return customStarter
           }
 
           return starter
@@ -186,9 +120,6 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
     ) as unknown as Project
   }
 
-  const starter = starters.find(s => s.value === project.starter)
-  const source = starter ? starter.path : project.starter
-
   if (project.install) {
     try {
       execSync(`${project.pm} --version`, { stdio: 'ignore' })
@@ -202,7 +133,7 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
     {
       title: 'Creating project',
       task: async () => {
-        await downloadTemplate(source.includes(':') ? source : `gh:${source}`, {
+        await downloadTemplate(project.starter.includes(':') ? project.starter : `gh:${project.starter}`, {
           dir: project.path,
         })
         await rm(`${project.path}/.github`, { recursive: true, force: true })
