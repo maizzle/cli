@@ -57,23 +57,32 @@ describe('make:config interactive', () => {
     await makeConfig()
 
     expect(mockExit).toHaveBeenCalledWith(0)
-    expect(existsSync(join(tempDir, 'production.config.ts'))).toBe(true)
+    expect(existsSync(join(tempDir, 'i.e. maizzle.config.ts'))).toBe(true)
   })
 
   it('validates empty name', async () => {
     await makeConfig()
 
-    const nameField = textCalls.find(c => c.message === 'Config name')
+    const nameField = textCalls.find(c => c.message === 'File name')
     expect(nameField).toBeDefined()
-    expect(nameField.validate('')).toBe('Please enter a config name.')
-    expect(nameField.validate('valid')).toBeUndefined()
+    expect(nameField.validate('')).toBe('Please enter a file name.')
+    expect(nameField.validate('maizzle.config.ts')).toBeUndefined()
+    expect(nameField.validate('production.config.js')).toBeUndefined()
   })
 
   it('validates name with spaces', async () => {
     await makeConfig()
 
-    const nameField = textCalls.find(c => c.message === 'Config name')
-    expect(nameField.validate('has space')).toBe('Use - or . instead of spaces.')
+    const nameField = textCalls.find(c => c.message === 'File name')
+    expect(nameField.validate('has space.ts')).toBe('Use - or . instead of spaces.')
+  })
+
+  it('validates file extension', async () => {
+    await makeConfig()
+
+    const nameField = textCalls.find(c => c.message === 'File name')
+    expect(nameField.validate('maizzle.config')).toBe('File must end in .js or .ts')
+    expect(nameField.validate('config.json')).toBe('File must end in .js or .ts')
   })
 })
 

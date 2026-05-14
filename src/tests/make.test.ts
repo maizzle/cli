@@ -36,7 +36,7 @@ describe('make:config', () => {
   it('creates a config file with the given name', async () => {
     const filePath = join(tempDir, 'production.config.ts')
 
-    await makeConfig(join(tempDir, 'production'))
+    await makeConfig(filePath)
 
     expect(mockExit).toHaveBeenCalledWith(0)
     expect(existsSync(filePath)).toBe(true)
@@ -49,10 +49,10 @@ describe('make:config', () => {
   it('exits with 1 if config file already exists', async () => {
     const filePath = join(tempDir, 'production.config.ts')
 
-    await makeConfig(join(tempDir, 'production'))
+    await makeConfig(filePath)
     mockExit.mockClear()
 
-    await makeConfig(join(tempDir, 'production'))
+    await makeConfig(filePath)
 
     expect(mockExit).toHaveBeenCalledWith(1)
   })
