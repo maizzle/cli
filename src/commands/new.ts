@@ -86,9 +86,9 @@ export default async function newProject(starterArg?: string, dirArg?: string, o
         starter: async () => {
           const starter = await p.select({
             message: 'Select a Starter',
-            initialValue: 'maizzle/maizzle#next',
+            initialValue: 'maizzle/maizzle',
             options: [
-              { value: 'maizzle/maizzle#next', label: 'Default' },
+              { value: 'maizzle/maizzle', label: 'Default' },
               { value: 'custom', label: 'Custom' },
             ],
           })
