@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed, useAttrs, createStaticVNode, type PropType } from 'vue'
 import { twMerge } from 'tailwind-merge'
-import { outlookFallbackProp } from './utils.ts'
-import { useOutlookFallback } from '../composables/useOutlookFallback'
+import { useOutlookFallback } from '@maizzle/framework'
 
 defineOptions({ inheritAttrs: false })
 
@@ -65,7 +64,10 @@ const props = defineProps({
    *
    * @default true
    */
-  outlookFallback: outlookFallbackProp,
+  outlookFallback: {
+    type: Boolean,
+    default: null,
+  },
 })
 
 const outlookFallback = useOutlookFallback(props.outlookFallback)
